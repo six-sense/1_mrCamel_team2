@@ -16,7 +16,7 @@ class Item extends Component {
                 <ItemBoxLayout>
                     <InnerLayout>
                         <ItemLayout wd={45} style={{flex:'none'}}>
-
+                        {/* 상품 이미지 */}
                         </ItemLayout>
 
                         <ItemLayout wd={50} style={{marginLeft:'auto',display:'flex',flexDirection:'column'}}>
@@ -40,7 +40,9 @@ const ItemBoxLayout = styled.div`
     display:flex;
     justify-content:center;
     padding: 30px 60px;
-    border:1px solid #cdcdcd;
+    border-left:1px solid #cdcdcd;
+    border-right:1px solid #cdcdcd;
+    border-bottom:1px solid #cdcdcd;
     
 `;
 
