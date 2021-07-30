@@ -1,4 +1,4 @@
-import RecentList from './Pages/RecentList';
+import RecentList from 'Pages/RecentList';
 
 function App() {
   return (
