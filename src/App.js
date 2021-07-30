@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import DetailPage from 'Pages/ProductList';
 import RecentList from 'Pages/RecentList';
 import Sort from 'Components/Sort';
+import DetailedProduct from 'Pages/DetailedProduct';
 
 class App extends Component {
   render() {
@@ -12,6 +13,7 @@ class App extends Component {
           <Route exact path="/" component={DetailPage} />
           <Route exact path="/product_list" component={RecentList} />
           <Route exact path="/sort" component={Sort} />
+          <Route exact path="/detail_product" component={DetailedProduct} />
         </Switch>
       </Router>
     );

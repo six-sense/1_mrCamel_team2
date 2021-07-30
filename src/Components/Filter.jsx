@@ -3,6 +3,51 @@ import styled from 'styled-components';
 import Checkbox from './Checkbox';
 
 class Filter extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      nike: false,
+      guzzi: false,
+      stone: false,
+      louis: false,
+    };
+  }
+
+  brandFilter = (e) => {
+    this.props.brand(e.target.id);
+
+    switch (e.target.id) {
+      case '나이키':
+        if (this.state.nike) {
+          this.setState({ nike: false });
+        } else {
+          this.setState({ nike: true });
+        }
+        break;
+      case '구찌':
+        if (this.state.guzzi) {
+          this.setState({ guzzi: false });
+        } else {
+          this.setState({ guzzi: true });
+        }
+        break;
+      case '스톤아일랜드':
+        if (this.state.stone) {
+          this.setState({ stone: false });
+        } else {
+          this.setState({ stone: true });
+        }
+        break;
+      case '루이비통':
+        if (this.state.louis) {
+          this.setState({ louis: false });
+        } else {
+          this.setState({ louis: true });
+        }
+        break;
+    }
+  };
+
   render() {
     return (
       <>
@@ -12,17 +57,41 @@ class Filter extends Component {
               <TextLayout fnt={15} col={'black'}>
                 <b>브랜드</b>
               </TextLayout>
-              <TextLayout fnt={13} col={'gray'} cus={'pointer'}>
+              <TextLayout
+                fnt={13}
+                col={this.state.nike ? 'black' : 'gray'}
+                cus={'pointer'}
+                id={'나이키'}
+                onClick={this.brandFilter}
+              >
                 나이키
               </TextLayout>
-              <TextLayout fnt={13} col={'gray'} cus={'pointer'}>
+              <TextLayout
+                fnt={13}
+                col={this.state.guzzi ? 'black' : 'gray'}
+                cus={'pointer'}
+                id={'구찌'}
+                onClick={this.brandFilter}
+              >
                 구찌
               </TextLayout>
-              <TextLayout fnt={13} col={'gray'} cus={'pointer'}>
+              <TextLayout
+                fnt={13}
+                col={this.state.stone ? 'black' : 'gray'}
+                cus={'pointer'}
+                id={'스톤아일랜드'}
+                onClick={this.brandFilter}
+              >
                 스톤아일랜드
               </TextLayout>
-              <TextLayout fnt={13} col={'gray'} cus={'pointer'}>
-                루이비똥
+              <TextLayout
+                fnt={13}
+                col={this.state.louis ? 'black' : 'gray'}
+                cus={'pointer'}
+                id={'루이비통'}
+                onClick={this.brandFilter}
+              >
+                루이비통
               </TextLayout>
             </ItemLayout>
           </InnerLayout>
@@ -53,7 +122,7 @@ class Filter extends Component {
 }
 
 const FilterBoxLayout = styled.div`
-  width: 650px;
+  width: 100%;
   height: 90px;
   border: 1px solid #cdcdcd;
 `;
