@@ -8,7 +8,7 @@ class RecentList extends Component{
     }
     render(){
         return(
-            <div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+            <div style={{width:'650px', height:'auto', display:'flex',flexDirection:'column', margin:'auto'}}>
                 <Filter/>
                 <Item/>
                 <Item/>

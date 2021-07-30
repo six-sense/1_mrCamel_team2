@@ -12,7 +12,7 @@ class Item extends Component {
     }
     render(){
         return (
-            <div >
+
                 <ItemBoxLayout>
                     <InnerLayout>
                         <ItemLayout wd={45} style={{flex:'none'}}>
@@ -28,14 +28,14 @@ class Item extends Component {
                     </InnerLayout>
 
                 </ItemBoxLayout>
-            </div>
+          
             
         );
     }
 }
 
 const ItemBoxLayout = styled.div`
-    width:650px;
+    width:100%;
     min-height:200px;
     display:flex;
     justify-content:center;

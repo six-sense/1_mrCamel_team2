@@ -5,7 +5,7 @@ import Checkbox from './Checkbox';
 class Filter extends Component{
     render(){
         return(
-            <>
+            
                 <FilterBoxLayout>
                     <InnerLayout>
                         <ItemLayout wd={50} jc={'space-around'}>
@@ -32,13 +32,13 @@ class Filter extends Component{
                         </ItemLayout>
                     </InnerLayout>
                 </FilterBoxLayout>
-            </>
+            
         )
     }
 }
 
 const FilterBoxLayout = styled.div`
-    width:650px;
+    width:100%;
     height:90px;
     border:1px solid #cdcdcd;
 `;
