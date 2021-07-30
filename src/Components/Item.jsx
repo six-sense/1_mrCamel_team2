@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import nike from 'assets/dummyImage.jpeg';
-
-const title = '나이키 테아 흰검';
-const brand = '나이키';
-const cost = '4000원';
+import productData from 'Utils/mockData.json';
 
 class Item extends Component {
   constructor(props) {
@@ -13,37 +10,43 @@ class Item extends Component {
   render() {
     return (
       <div>
-        <ItemBoxLayout>
-          <InnerLayout>
-            <ItemLayout wd={45} style={{ flex: 'none' }}>
-              <img
-                src={nike}
-                alt="nike_product"
-                style={{ width: '250px', height: '150px' }}
-              />
-            </ItemLayout>
+        {productData.map((item, idx) => (
+          <ItemBoxLayout key={idx}>
+            <InnerLayout>
+              <ItemLayout wd={45} style={{ flex: 'none' }}>
+                <img
+                  src={nike}
+                  alt="nike_product"
+                  style={{ width: '250px', height: '150px' }}
+                />
+              </ItemLayout>
 
-            <ItemLayout
-              wd={50}
-              style={{
-                marginLeft: 'auto',
-                display: 'flex',
-                flexDirection: 'column',
-              }}
-            >
-              <TextLayout fnt={20} col={'black'}>
-                {' '}
-                {title}
-              </TextLayout>
-              <TextLayout fnt={15} col={'gray'} style={{ margin: 'auto 0' }}>
-                {brand}
-              </TextLayout>
-              <TextLayout fnt={20} col={'black'} style={{ marginTop: 'auto' }}>
-                {cost}
-              </TextLayout>
-            </ItemLayout>
-          </InnerLayout>
-        </ItemBoxLayout>
+              <ItemLayout
+                wd={50}
+                style={{
+                  marginLeft: 'auto',
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+              >
+                <TextLayout fnt={20} col={'black'}>
+                  {' '}
+                  {item.title}
+                </TextLayout>
+                <TextLayout fnt={15} col={'gray'} style={{ margin: 'auto 0' }}>
+                  {item.brand}
+                </TextLayout>
+                <TextLayout
+                  fnt={20}
+                  col={'black'}
+                  style={{ marginTop: 'auto' }}
+                >
+                  {item.price}원
+                </TextLayout>
+              </ItemLayout>
+            </InnerLayout>
+          </ItemBoxLayout>
+        ))}
       </div>
     );
   }
