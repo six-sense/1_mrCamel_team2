@@ -23,7 +23,6 @@ class Product extends Component {
       recentItems = [];
       this.AddProduct(recentItems, ClickProd);
     } else {
-      console.log("난 있지롱 ");
       const filterItems = recentItems.filter(
         (el) => JSON.stringify(el) !== JSON.stringify(ClickProd)
       );
