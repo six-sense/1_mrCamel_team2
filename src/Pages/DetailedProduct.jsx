@@ -1,57 +1,65 @@
-import React from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 
-class DetailedProduct extends React.Component {
-  constructor() {
-    super();
-    this.state = {};
+class DetailedProduct extends Component {
+
+  componentDidMount() {
+    const { location, history } = this.props;
+    // 클릭해서 들어온 것이 아니면 home으로 return
+    if (location.state === undefined) {
+      history.push("/");
+    }
   }
 
   render() {
-    const data = {
-      title: "중고 나이키 테아 흰검 245 30000원",
-      brand: "나이키",
-      price: 30000,
-    };
-    return (
-      <ProductContainer>
-        <ProductWrap>
-          <LeftSide>
-            <img
-              src={`https://picsum.photos/3`}
-              alt="product"
-              aria-label={data.brand + "image"}
-            />
-          </LeftSide>
-          <RightSide>
-            <ProductContentWrap>
-              <ContentWrap>
-                <ProductTitle>
-                  <h1>{data.title}</h1>
-                </ProductTitle>
-                <ProductBrand>
-                  <h2>{data.brand}</h2>
-                </ProductBrand>
-                <ProductPrice>
-                  <h1>{`${data.price.toLocaleString()} 원`}</h1>
-                </ProductPrice>
-              </ContentWrap>
-              <BtnWrap>
-                <RandomBtn>
-                  <button>랜덤상품 조회</button>
-                </RandomBtn>
-                <NoInterestBtn>
-                  <button>관심없음</button>
-                </NoInterestBtn>
-              </BtnWrap>
-            </ProductContentWrap>
-          </RightSide>
-        </ProductWrap>
-        <RecentListBtnWrap>
-          <button>상품 조회 이력 확인하기</button>
-        </RecentListBtnWrap>
-      </ProductContainer>
-    );
+    const { location } = this.props;
+    // 이슈1.
+    // 새로 고침하면 뒤로가짐. 근데 이게 맞는거 같음
+    // 새로 고침했다는 것이 상품을 조회했다는 의미는 아니니까.
+    if (location.state) {
+      const { title, brand, price } = location.state;
+      return (
+        <ProductContainer>
+          <ProductWrap>
+            <LeftSide>
+              <img
+                src={`https://picsum.photos/3`}
+                alt="product"
+                aria-label={brand + "image"}
+              />
+            </LeftSide>
+            <RightSide>
+              <ProductContentWrap>
+                <ContentWrap>
+                  <ProductTitle>
+                    <h1>{title}</h1>
+                  </ProductTitle>
+                  <ProductBrand>
+                    <h2>{brand}</h2>
+                  </ProductBrand>
+                  <ProductPrice>
+                    <h1>{`${price.toLocaleString()} 원`}</h1>
+                  </ProductPrice>
+                </ContentWrap>
+                <BtnWrap>
+                  <RandomBtn>
+                    <button>랜덤상품 조회</button>
+                  </RandomBtn>
+                  <NoInterestBtn>
+                    <button>관심없음</button>
+                  </NoInterestBtn>
+                </BtnWrap>
+              </ProductContentWrap>
+            </RightSide>
+          </ProductWrap>
+          <RecentListBtnWrap>
+            <button>상품 조회 이력 확인하기</button>
+          </RecentListBtnWrap>
+        </ProductContainer>
+      );
+    } else {
+      return null;
+    }
   }
 }
 
