@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import nike from 'assets/dummyImage.jpeg';
-import productData from 'Utils/mockData.json';
+import products from 'Utils/mockData.json';
 
 class Item extends Component {
   constructor(props) {
     super(props);
+    this.state = { products };
   }
+
   render() {
     return (
       <div>
-        {productData.map((item, idx) => (
+        {this.state.products.map((item, idx) => (
           <ItemBoxLayout key={idx}>
             <InnerLayout>
               <ItemLayout wd={45} style={{ flex: 'none' }}>

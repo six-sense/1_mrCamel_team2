@@ -1,12 +1,21 @@
-import RecentList from './Pages/RecentList';
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import DetailPage from 'Pages/ProductList';
+import RecentList from 'Pages/RecentList';
+import Sort from 'Components/Sort';
 
-function App() {
-  return (
-    <div className="App">
-      {/* <h1>화이팅!</h1> */}
-      <RecentList/>
-    </div>
-  );
+class App extends Component {
+  render() {
+    return (
+      <Router>
+        <Switch>
+          <Route exact path="/" component={DetailPage} />
+          <Route exact path="/product_list" component={RecentList} />
+          <Route exact path="/sort" component={Sort} />
+        </Switch>
+      </Router>
+    );
+  }
 }
 
 export default App;
