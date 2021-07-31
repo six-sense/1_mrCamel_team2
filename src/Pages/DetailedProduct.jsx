@@ -36,7 +36,7 @@ class DetailedProduct extends Component {
       });
   }
 
-  randomLoad = async (currentItem) => {
+  randomLoad = async (currentItem, flag) => {
     const { RandomList, history, location } = this.state;
     const { id } = currentItem;
     let RandomNumber = -1;
@@ -57,27 +57,40 @@ class DetailedProduct extends Component {
       RandomBrand: brand,
       RandomPrice: price,
     });
+    if (this.state.RandomTitle) {
+      const Product = {
+        title: this.state.RandomTitle,
+        brand: this.state.RandomBrand,
+        price: this.state.RandomPrice,
+      };
+      if (flag) {
+        this.HandleProduct(Product);
+      }
+    }
+    history.push(`/product/${this.state.RandomId}`);
+  };
 
-    console.log('랜덤 버튼 클릭');
+  AddRecentProduct = (recentItems, ClickProd) => {
+    recentItems.push(ClickProd);
+    const stringProds = JSON.stringify(recentItems);
+    localStorage.setItem('recentItems', stringProds);
+  };
 
-    // history.push(`/product/${this.state.RandomId}`);
-    // console.log(history);
-    // this.location = history.location;
-    // console.log(location);
-    // console.log(this.state.RandomTitle);
-    // //this.render();
+  HandleProduct = (ClickProd) => {
+    let recentItems = this.state.recentItems;
 
-    // // return (
-    // //   <>
-    // //     {console.log("HI")}
-    // //     <Product
-    // //       id={this.state.RandomId}
-    // //       title={this.state.RandomTitle}
-    // //       brand={this.state.RandomBrand}
-    // //       price={this.state.RandomPrice}
-    // //     />
-    // //   </>
-    // // );
+    if (recentItems === null) {
+      recentItems = [];
+      this.AddRecentProduct(recentItems, ClickProd);
+    } else {
+      const filterItems = recentItems.filter(
+        (el) => JSON.stringify(el) !== JSON.stringify(ClickProd)
+      );
+      this.AddRecentProduct(filterItems, ClickProd);
+      this.setState({
+        recentItems: JSON.parse(localStorage.getItem('recentItems')),
+      });
+    }
   };
 
   HandleDislike = (ClickProd) => {
@@ -93,6 +106,10 @@ class DetailedProduct extends Component {
       );
       this.AddDislikeProduct(filterItems, ClickProd);
     }
+    this.setState({
+      dislikeItems: JSON.parse(localStorage.getItem('dislikeItems')),
+    });
+    this.randomLoad(ClickProd, false);
   };
 
   AddDislikeProduct = (dislikeItems, ClickProd) => {
@@ -110,10 +127,17 @@ class DetailedProduct extends Component {
 
   render() {
     const { location } = this.state;
-
+    if (this.state.RandomTitle) {
+      const Product = {
+        title: this.state.RandomTitle,
+        brand: this.state.RandomBrand,
+        price: this.state.RandomPrice,
+      };
+    }
     if (location.state) {
       const { title, brand, price, id } = location.state;
       const currentItem = { title, brand, price, id };
+
       return (
         <ProductContainer>
           <ProductWrap>
@@ -147,7 +171,7 @@ class DetailedProduct extends Component {
                 </ContentWrap>
                 <BtnWrap>
                   <RandomBtn>
-                    <button onClick={() => this.randomLoad(currentItem)}>
+                    <button onClick={() => this.randomLoad(currentItem, true)}>
                       랜덤상품 조회
                     </button>
                   </RandomBtn>
@@ -176,25 +200,32 @@ class DetailedProduct extends Component {
 export default DetailedProduct;
 
 const ProductContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   width: 1200px;
-  margin: 0 auto;
+  height: 500px;
 `;
 
 const ProductWrap = styled.div`
   display: flex;
-  justify-content: center;
-  width: 100%;
-  padding: 50px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  width: 90%;
+  height: 85%;
 `;
 
 const LeftSide = styled.div`
   width: 100%;
   img {
-    width: 500px;
-    height: 300px;
+    position: relative;
+    width: 90%;
+    height: 90%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 `;
 
@@ -203,8 +234,12 @@ const RightSide = styled.div`
 `;
 
 const ProductContentWrap = styled.div`
+  position: relative;
   width: 90%;
   height: 90%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const ContentWrap = styled.div`
@@ -215,7 +250,7 @@ const ContentWrap = styled.div`
 
 const ProductTitle = styled.div`
   height: 10%;
-  /* margin: 20px; */
+  margin: 20px;
   h1 {
     font-size: larger;
     font-weight: 600;
@@ -248,7 +283,6 @@ const BtnWrap = styled.div`
 
 const RandomBtn = styled.div`
   width: 100%;
-
   button {
     position: relative;
     left: 50%;
@@ -265,7 +299,6 @@ const RandomBtn = styled.div`
 
 const NoInterestBtn = styled.div`
   width: 100%;
-
   button {
     position: relative;
     left: 50%;
@@ -286,7 +319,6 @@ const RecentListBtnWrap = styled.div`
   width: 100%;
   height: 10%;
   margin: 10px 10px 20px 0px;
-
   button {
     position: relative;
     left: 50%;
