@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import nike from 'assets/dummyImage.jpeg'
-import productData from 'Utils/mockData.json'
+import nike from 'assets/dummyImage.jpeg';
+import productData from 'Utils/mockData.json';
 
 class FilteringItem extends Component {
   constructor(props) {
     super(props);
-
   }
-  
-
   render() {
     return (
       <>

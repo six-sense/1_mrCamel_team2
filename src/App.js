@@ -4,6 +4,7 @@ import DetailPage from 'Pages/ProductList';
 import RecentList from 'Pages/RecentList';
 import Sort from 'Components/Sort';
 import DetailedProduct from 'Pages/DetailedProduct';
+import Test from 'Components/Test';
 
 class App extends Component {
   render() {
@@ -11,9 +12,10 @@ class App extends Component {
       <Router>
         <Switch>
           <Route exact path="/" component={DetailPage} />
-          <Route exact path="/product_list" component={RecentList} />
+          <Route exact path="/recentList" component={RecentList} />
           <Route exact path="/sort" component={Sort} />
-          <Route exact path="/detail_product" component={DetailedProduct} />
+          <Route exact path="/product" component={DetailedProduct} />
+          <Route exact path="/test" component={Test} />
         </Switch>
       </Router>
     );

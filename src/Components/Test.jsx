@@ -1,17 +1,56 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import nike from 'assets/dummyImage.jpeg';
-import products from 'Utils/mockData.json';
+import data from 'Utils/mockData.json';
 
-class Item extends Component {
+// class Test extends Component {
+//   state = {
+//     products,
+//     prices: [],
+//   };
+
+//   componentDidMount() {
+//     const { products, prices } = this.state;
+//     prices = products.map((p) => p.prices.substr(3));
+//     this.setState({ prices });
+//   }
+
+//   sortAscending = () => {
+//     const { prices } = this.state;
+//     prices.sort((a, b) => a.price - b.price);
+//     this.setState({ prices });
+//   };
+class Test extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      productData: data,
+    };
+    this.sortByPriceAsc = this.sortByPriceAsc.bind(this);
+  }
+  // sortByPriceAsc() {
+  //   this.setState((prevState) => {
+  //     this.state.productData.sort((a, b) => a.price - b.price);
+  //   });
+  // }
+
+  sortByPriceAsc() {
+    const { productData } = this.state;
+    let newProductList = productData.sort((a, b) => {
+      return a.price - b.price;
+    });
+    this.setState({
+      productData: newProductList,
+    });
   }
 
   render() {
+    // const { prices } = this.state;
     return (
       <div>
-        {products.map((item, idx) => (
+        <button onClick={this.sortByPriceAsc}>asc BTN</button>
+        {console.log(this.sortByPriceAsc)}
+        {data.map((item, idx) => (
           <ItemBoxLayout key={idx}>
             <InnerLayout>
               <ItemLayout wd={45} style={{ flex: 'none' }}>
@@ -81,4 +120,4 @@ const TextLayout = styled.div`
   color: ${(props) => props.col};
 `;
 
-export default Item;
+export default Test;

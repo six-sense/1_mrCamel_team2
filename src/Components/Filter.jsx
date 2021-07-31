@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Checkbox from './Checkbox';
+import Sort from './Sort';
 
 class Filter extends Component {
   constructor(props) {
@@ -97,7 +98,6 @@ class Filter extends Component {
           </InnerLayout>
 
           <Divider />
-
           <InnerLayout>
             <ItemLayout wd={25} jc={'space-between'}>
               <Checkbox checked={false} />
@@ -105,15 +105,7 @@ class Filter extends Component {
                 관심 없는 상품 숨기기
               </TextLayout>
             </ItemLayout>
-            <ItemLayout wd={28} jc={'space-between'}>
-              <TextLayout fnt={13} col={'black'}>
-                최근 조회 순
-              </TextLayout>
-              <Divider2 />
-              <TextLayout fnt={13} col={'gray'} oncClick={this.sortByPriceAsc}>
-                낮은 가격 순
-              </TextLayout>
-            </ItemLayout>
+            <Sort />
           </InnerLayout>
         </FilterBoxLayout>
       </>
