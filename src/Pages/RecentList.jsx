@@ -22,10 +22,12 @@ class RecentList extends Component {
       //   JSON.stringify(dislikeSample)
       // ),
       origin_recentItems: JSON.parse(localStorage.getItem('recentItems')),
+      origin_reverse_recentItems:JSON.parse(localStorage.getItem('recentItems')),
       check: false,
-      click: false,
+      click: false, // 낮은 가격 정렬 버튼
+      recentClick:false, // 최근 조회 정렬 버튼 
     };
-    this.sortByPriceAsc = this.sortByPriceAsc.bind(this);
+    // this.sortByPriceAsc = this.sortByPriceAsc.bind(this);
   }
 
   // ========================= 브랜드 필터링 기능 ============================ //
@@ -155,27 +157,68 @@ class RecentList extends Component {
     }
   }
 
-  setFilterData(arrayList) {
-    this.setState({ recentItems: arrayList });
-  }
+//  =========== 정렬 기능 ==============
 
+
+
+// ============ 낮은 가격 순 ======================
+
+//  낮은 가격 순 클릭 이벤트 결과에 따라 조건에 맞는 함수 실행
   clickAsc = (res) => {
     this.setState({ click: res }, () => {
-      console.log(this.state.click);
-      // this.state.click
-      //   ? this.state.origin_recentItems
-      //   : this.setDefaultFilter();
+      this.state.click ? this.sortByPriceAsc()  : this.setOriginData();
     });
   };
 
-  sortByPriceAsc() {
-    const { productData } = this.state;
-    let newProductList = productData.sort((a, b) => {
-      return a.price - b.price;
+ // 낮은 가격 순으로 정렬 기능(수정)
+  sortByPriceAsc =() =>{
+        let newProductList = this.state.recentItems.sort((a, b) => {
+            return a.price - b.price;
+          });
+          this.setFilterData(newProductList)
+      }
+  
+
+
+// ============ 최근 조회 순 ======================
+
+  //  최근 조회 순 클릭 이벤트 결과에 따라 조건에 맞는 함수 실행
+  clickRecentAsc = (res) => {
+    this.setState({ recentClick: res }, () => {
+        console.log(this.state.recentClick)
+      this.state.recentClick ? this.sortByRecentAsc()  : this.setOriginData();
     });
-    this.setState({
-      productData: newProductList,
-    });
+  };
+
+  sortByRecentAsc = () =>{
+    let newItemData=[]
+        let itemData=''
+        for(itemData of this.state.origin_recentItems){
+        newItemData.push(itemData)
+        }
+        newItemData.reverse()
+        this.setState({origin_reverse_recentItems:newItemData})
+        this.setFilterData(newItemData)
+
+  }
+  //  기존 조회 Storage로 정렬 방식으로 복귀
+  setOriginData(){
+
+    let newItemData=[]
+    let itemData=''
+    for(itemData of this.state.origin_recentItems){
+        newItemData.push(itemData)
+    }
+    // newItemData.reverse()
+    // this.setState({origin_reverse_recentItems:newItemData})
+    this.setFilterData(newItemData)
+       
+   }
+
+
+  // ======= Filter 컴포넌트에서 실제로 맵핑하는 데이터 setState 하는 함수 (공통) =========
+  setFilterData(arrayList) {
+    this.setState({ recentItems: arrayList });
   }
 
   render() {
@@ -185,8 +228,10 @@ class RecentList extends Component {
           brand={this.selectBrand}
           setCheck={this.checkClick}
           check={this.state.check}
-          // setClick={this.clickAsc}
+          setClick={this.clickAsc}
           click={this.state.click}
+          setRecentClick={this.clickRecentAsc}
+          recentClick={this.state.recentClick}
         />
         <Item
           selectBrand={this.state.brandName}
