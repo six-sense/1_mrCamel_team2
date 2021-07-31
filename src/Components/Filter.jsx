@@ -49,6 +49,7 @@ class Filter extends Component{
         }
     }
 
+
     dislikeFilter =()=>{
         if(this.props.check){
             this.props.setCheck(false)
@@ -57,6 +58,7 @@ class Filter extends Component{
         }
         
     }
+
     render(){
         return(
                 <FilterBoxLayout>
