@@ -60,26 +60,24 @@ class DetailedProduct extends Component {
 
     console.log("랜덤 버튼 클릭");
 
-    // history.replace(`/product/${this.state.RandomId}`,{
-    //   title : this.state.RandomTitle,
-    //   brand: this.state.RandomBrand,
-    //   price: this.state.RandomPrice,
-    // });
+    // history.push(`/product/${this.state.RandomId}`);
     // console.log(history);
     // this.location = history.location;
     // console.log(location);
-    // this.render();
+    // console.log(this.state.RandomTitle);
+    // //this.render();
 
-    return (
-      <>
-        <Product
-          id={this.state.RandomId}
-          title={this.state.RandomTitle}
-          brand={this.state.RandomBrand}
-          price={this.state.RandomPrice}
-        />
-      </>
-    );
+    // // return (
+    // //   <>
+    // //     {console.log("HI")}
+    // //     <Product
+    // //       id={this.state.RandomId}
+    // //       title={this.state.RandomTitle}
+    // //       brand={this.state.RandomBrand}
+    // //       price={this.state.RandomPrice}
+    // //     />
+    // //   </>
+    // // );
   };
 
   HandleDislike = (ClickProd) => {
@@ -111,11 +109,8 @@ class DetailedProduct extends Component {
   };
 
   render() {
-    console.log("gd");
     const { location } = this.state;
-    // 이슈1.
-    // 새로 고침하면 홈으로가짐. 근데 이게 맞는거 같음
-    // 새로 고침했다는 것이 상품을 조회했다는 의미는 아니니까.
+
     if (location.state) {
       const { title, brand, price, id } = location.state;
       const currentItem = { title, brand, price, id };
@@ -124,7 +119,7 @@ class DetailedProduct extends Component {
           <ProductWrap>
             <LeftSide>
               <img
-                src={`https://picsum.photos/3`}
+                src={`https://picsum.photos/5`}
                 alt="product"
                 aria-label={brand + "image"}
               />
@@ -133,13 +128,13 @@ class DetailedProduct extends Component {
               <ProductContentWrap>
                 <ContentWrap>
                   <ProductTitle>
-                    <h1>{title}</h1>
+                    <h1>{this.state.RandomTitle ? this.state.RandomTitle : title}</h1>
                   </ProductTitle>
                   <ProductBrand>
-                    <h2>{brand}</h2>
+                    <h2>{this.state.RandomBrand ? this.state.RandomBrand : brand}</h2>
                   </ProductBrand>
                   <ProductPrice>
-                    <h1>{`${price.toLocaleString()} 원`}</h1>
+                    <h1>{`${this.state.RandomPrice ? this.state.RandomPrice : price.toLocaleString()} 원`}</h1>
                   </ProductPrice>
                 </ContentWrap>
                 <BtnWrap>
