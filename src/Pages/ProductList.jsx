@@ -7,9 +7,9 @@ class DetailPage extends React.Component {
     super();
     this.state = {
       ContentList: [],
+      
     };
   }
-
   componentDidMount() {
     fetch('http://localhost:3000/data/mock.json')
       .then((res) => res.json())
@@ -18,15 +18,20 @@ class DetailPage extends React.Component {
           ContentList: data,
         });
       });
+     
   }
+  
 
+
+  
   render() {
     const { ContentList } = this.state;
-
+    
     return (
       <DetailPageContainer>
         <ProductListContainer>
           {ContentList?.map((product, index) => (
+            
             <Product
               id={index}
               key={index}
@@ -34,6 +39,7 @@ class DetailPage extends React.Component {
               brand={product.brand}
               price={product.price}
             />
+            
           ))}
         </ProductListContainer>
       </DetailPageContainer>

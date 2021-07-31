@@ -17,7 +17,7 @@ class InitStorages extends Component {
   }
   tick = () => {
     this.setState({ time: new Date() });
-    console.log(this.state.time);
+    
     if (this.state.time.getHour() === 0) {
       localStorage.removeItem('recentItems');
       localStorage.removeItem('dislikeItems');

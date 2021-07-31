@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-class Alert extends Component{
+class Alert extends React.Component{
     constructor(props){
         super(props)
         this.setState({
