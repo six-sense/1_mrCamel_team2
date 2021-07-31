@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import Filter from 'Components/Filter';
-import Item from 'Components/Item';
+import React, { Component } from "react";
+import Filter from "Components/Filter";
+import Item from "Components/Item";
 // import productData from 'Utils/mockData.json';
-import recentSample from 'Utils/recentData.json';
-import dislikeSample from 'Utils/dislikeData.json';
+import recentSample from "Utils/recentData.json";
+import dislikeSample from "Utils/dislikeData.json";
 
 class RecentList extends Component {
   constructor(props) {
@@ -15,17 +15,19 @@ class RecentList extends Component {
       //   'recentItems',
       //   JSON.stringify(recentSample)
       // ),
-      recentItems: JSON.parse(localStorage.getItem('recentItems')),
-      dislikeItems: JSON.parse(localStorage.getItem('dislikeItems')),
+      recentItems: JSON.parse(localStorage.getItem("recentItems")),
+      dislikeItems: JSON.parse(localStorage.getItem("dislikeItems")),
       // dislikeItems: localStorage.setItem(
       //   'dislikeItems',
       //   JSON.stringify(dislikeSample)
       // ),
-      origin_recentItems: JSON.parse(localStorage.getItem('recentItems')),
-      origin_reverse_recentItems:JSON.parse(localStorage.getItem('recentItems')),
+      origin_recentItems: JSON.parse(localStorage.getItem("recentItems")),
+      origin_reverse_recentItems: JSON.parse(
+        localStorage.getItem("recentItems")
+      ),
       check: false,
       click: false, // 낮은 가격 정렬 버튼
-      recentClick:false, // 최근 조회 정렬 버튼 
+      recentClick: false, // 최근 조회 정렬 버튼
     };
     // this.sortByPriceAsc = this.sortByPriceAsc.bind(this);
   }
@@ -57,7 +59,7 @@ class RecentList extends Component {
       if (this.state.brandName.length > 0) {
         let newItemData = [];
         for (let i = 0; i < this.state.brandName.length; i++) {
-          let itemData = '';
+          let itemData = "";
           for (itemData of this.state.origin_recentItems) {
             // console.log(itemData.brand)
             if (itemData.brand === this.state.brandName[i]) {
@@ -79,7 +81,7 @@ class RecentList extends Component {
       if (this.state.brandName.length > 0) {
         let newItemData = [];
         for (let i = 0; i < this.state.brandName.length; i++) {
-          let itemData = '';
+          let itemData = "";
           for (itemData of this.state.recentItems) {
             // console.log(itemData.brand)
             if (itemData.brand === this.state.brandName[i]) {
@@ -103,8 +105,8 @@ class RecentList extends Component {
 
   // 관심없음 O
   setDislikeFilter() {
-    let dislikeData = '';
-    let recentData = '';
+    let dislikeData = "";
+    let recentData = "";
     let resultList = [];
     let findTitle = [];
 
@@ -141,7 +143,7 @@ class RecentList extends Component {
       (item) => !findTitle.includes(item.title)
     );
     console.log(resultList);
-    // this.setFilterData(resultList);
+    this.setFilterData(resultList);
   }
 
   // 관심없음 X
@@ -152,69 +154,61 @@ class RecentList extends Component {
     }
     // 브랜드 X
     else {
-      let originItems = JSON.parse(localStorage.getItem('recentItems'));
+      let originItems = JSON.parse(localStorage.getItem("recentItems"));
       this.setFilterData(originItems);
     }
   }
 
-//  =========== 정렬 기능 ==============
+  //  =========== 정렬 기능 ==============
 
+  // ============ 낮은 가격 순 ======================
 
-
-// ============ 낮은 가격 순 ======================
-
-//  낮은 가격 순 클릭 이벤트 결과에 따라 조건에 맞는 함수 실행
+  //  낮은 가격 순 클릭 이벤트 결과에 따라 조건에 맞는 함수 실행
   clickAsc = (res) => {
     this.setState({ click: res }, () => {
-      this.state.click ? this.sortByPriceAsc()  : this.setOriginData();
+      this.state.click ? this.sortByPriceAsc() : this.setOriginData();
     });
   };
 
- // 낮은 가격 순으로 정렬 기능(수정)
-  sortByPriceAsc =() =>{
-        let newProductList = this.state.recentItems.sort((a, b) => {
-            return a.price - b.price;
-          });
-          this.setFilterData(newProductList)
-      }
-  
+  // 낮은 가격 순으로 정렬 기능(수정)
+  sortByPriceAsc = () => {
+    let newProductList = this.state.recentItems.sort((a, b) => {
+      return a.price - b.price;
+    });
+    this.setFilterData(newProductList);
+  };
 
-
-// ============ 최근 조회 순 ======================
+  // ============ 최근 조회 순 ======================
 
   //  최근 조회 순 클릭 이벤트 결과에 따라 조건에 맞는 함수 실행
   clickRecentAsc = (res) => {
     this.setState({ recentClick: res }, () => {
-        console.log(this.state.recentClick)
-      this.state.recentClick ? this.sortByRecentAsc()  : this.setOriginData();
+      console.log(this.state.recentClick);
+      this.state.recentClick ? this.sortByRecentAsc() : this.setOriginData();
     });
   };
 
-  sortByRecentAsc = () =>{
-    let newItemData=[]
-        let itemData=''
-        for(itemData of this.state.origin_recentItems){
-        newItemData.push(itemData)
-        }
-        newItemData.reverse()
-        this.setState({origin_reverse_recentItems:newItemData})
-        this.setFilterData(newItemData)
-
-  }
+  sortByRecentAsc = () => {
+    let newItemData = [];
+    let itemData = "";
+    for (itemData of this.state.origin_recentItems) {
+      newItemData.push(itemData);
+    }
+    newItemData.reverse();
+    this.setState({ origin_reverse_recentItems: newItemData });
+    this.setFilterData(newItemData);
+  };
   //  기존 조회 Storage로 정렬 방식으로 복귀
-  setOriginData(){
-
-    let newItemData=[]
-    let itemData=''
-    for(itemData of this.state.origin_recentItems){
-        newItemData.push(itemData)
+  setOriginData() {
+    let newItemData = [];
+    let itemData = "";
+    for (itemData of this.state.origin_recentItems) {
+      newItemData.push(itemData);
     }
     // newItemData.reverse()
     // this.setState({origin_reverse_recentItems:newItemData})
-    this.setFilterData(newItemData)
-       
-   }
-
+    this.setFilterData(newItemData);
+  }
 
   // ======= Filter 컴포넌트에서 실제로 맵핑하는 데이터 setState 하는 함수 (공통) =========
   setFilterData(arrayList) {
@@ -223,7 +217,7 @@ class RecentList extends Component {
 
   render() {
     return (
-      <div style={{ width: '650px', flexDirection: 'column', margin: 'auto' }}>
+      <div style={{ width: "650px", flexDirection: "column", margin: "auto" }}>
         <Filter
           brand={this.selectBrand}
           setCheck={this.checkClick}
