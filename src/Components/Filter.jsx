@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Checkbox from './Checkbox';
+import productData from 'Utils/mockData.json';
 // import Sort from './Sort';
 
 class Filter extends Component {
   constructor(props) {
     super(props);
+    console.log(this.props);
     this.state = {
       nike: false,
       guzzi: false,
@@ -56,6 +58,15 @@ class Filter extends Component {
       this.props.setCheck(false);
     } else {
       this.props.setCheck(true);
+    }
+  };
+
+  ascSort = () => {
+    console.log(this.props.click);
+    if (this.props.click) {
+      this.props.setClick(false);
+    } else {
+      this.props.setClick(true);
     }
   };
 
@@ -122,7 +133,7 @@ class Filter extends Component {
               최근 조회 순
             </TextLayout>
             <Divider2 />
-            <TextLayout fnt={13} col={'gray'}>
+            <TextLayout fnt={13} col={'gray'} onClick={this.sortByPriceAsc}>
               낮은 가격 순
             </TextLayout>
           </ItemLayout>

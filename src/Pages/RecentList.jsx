@@ -23,7 +23,9 @@ class RecentList extends Component {
       // ),
       origin_recentItems: JSON.parse(localStorage.getItem('recentItems')),
       check: false,
+      click: false,
     };
+    this.sortByPriceAsc = this.sortByPriceAsc.bind(this);
   }
 
   // ========================= 브랜드 필터링 기능 ============================ //
@@ -157,7 +159,24 @@ class RecentList extends Component {
     this.setState({ recentItems: arrayList });
   }
 
-  //
+  clickAsc = (res) => {
+    this.setState({ click: res }, () => {
+      console.log(this.state.click);
+      // this.state.click
+      //   ? this.state.origin_recentItems
+      //   : this.setDefaultFilter();
+    });
+  };
+
+  sortByPriceAsc() {
+    const { productData } = this.state;
+    let newProductList = productData.sort((a, b) => {
+      return a.price - b.price;
+    });
+    this.setState({
+      productData: newProductList,
+    });
+  }
 
   render() {
     return (
@@ -166,6 +185,8 @@ class RecentList extends Component {
           brand={this.selectBrand}
           setCheck={this.checkClick}
           check={this.state.check}
+          // setClick={this.clickAsc}
+          click={this.state.click}
         />
         <Item
           selectBrand={this.state.brandName}
