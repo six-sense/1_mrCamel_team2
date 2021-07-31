@@ -1,12 +1,33 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import nike from 'assets/dummyImage.jpeg';
+import data from 'Utils/mockData.json';
 
-class Item extends Component {
+class Test extends Component {
+  constructor() {
+    super();
+    this.state = {
+      productData: data,
+    };
+    this.sortByPriceAsc = this.sortByPriceAsc.bind(this);
+  }
+
+  sortByPriceAsc() {
+    const { productData } = this.state;
+    let newProductList = productData.sort((a, b) => {
+      return a.price - b.price;
+    });
+    this.setState({
+      productData: newProductList,
+    });
+  }
+
   render() {
     return (
       <div>
-        {this.props.productData?.map((item, idx) => (
+        <button onClick={this.sortByPriceAsc}>asc BTN</button>
+        {console.log(this.sortByPriceAsc)}
+        {data.map((item, idx) => (
           <ItemBoxLayout key={idx}>
             <InnerLayout>
               <ItemLayout wd={45} style={{ flex: 'none' }}>
@@ -37,7 +58,7 @@ class Item extends Component {
                   col={'black'}
                   style={{ marginTop: 'auto' }}
                 >
-                  {`${item.price.toLocaleString()} 원`}
+                  {item.price}원
                 </TextLayout>
               </ItemLayout>
             </InnerLayout>
@@ -49,7 +70,7 @@ class Item extends Component {
 }
 
 const ItemBoxLayout = styled.div`
-  width: 100%;
+  width: 650px;
   min-height: 200px;
   display: flex;
   justify-content: center;
@@ -76,4 +97,4 @@ const TextLayout = styled.div`
   color: ${(props) => props.col};
 `;
 
-export default Item;
+export default Test;
