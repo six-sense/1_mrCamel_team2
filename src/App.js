@@ -10,7 +10,6 @@ function App() {
       <Route exact path="/" component={ProductList} />
       <Route path="/product/:id" component={DetailedProduct} />
       <Route path="/product" exact={true} component={DetailedProduct} />
-      {/* <Route exact path="/" component={DetailPage} /> */}
       <Route path="/recentList" component={RecentList} />
     </HashRouter>
   );

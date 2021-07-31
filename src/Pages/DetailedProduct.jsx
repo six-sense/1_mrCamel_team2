@@ -176,32 +176,25 @@ class DetailedProduct extends Component {
 export default DetailedProduct;
 
 const ProductContainer = styled.div`
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 1200px;
-  height: 500px;
+  margin: 0 auto;
 `;
 
 const ProductWrap = styled.div`
   display: flex;
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%);
-  width: 90%;
-  height: 85%;
+  justify-content: center;
+  width: 100%;
+  padding: 50px;
 `;
 
 const LeftSide = styled.div`
   width: 100%;
   img {
-    position: relative;
-    width: 90%;
-    height: 90%;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 300px;
   }
 `;
 
@@ -210,12 +203,8 @@ const RightSide = styled.div`
 `;
 
 const ProductContentWrap = styled.div`
-  position: relative;
   width: 90%;
   height: 90%;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
 `;
 
 const ContentWrap = styled.div`
@@ -226,7 +215,7 @@ const ContentWrap = styled.div`
 
 const ProductTitle = styled.div`
   height: 10%;
-  margin: 20px;
+  /* margin: 20px; */
   h1 {
     font-size: larger;
     font-weight: 600;
