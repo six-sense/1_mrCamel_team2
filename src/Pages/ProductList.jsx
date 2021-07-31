@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Product from '../Components/Product';
+import InitStorage from 'Components/InitStorages';
 
 class DetailPage extends React.Component {
   constructor() {
@@ -36,6 +37,7 @@ class DetailPage extends React.Component {
             />
           ))}
         </ProductListContainer>
+        <InitStorage />
       </DetailPageContainer>
     );
   }
