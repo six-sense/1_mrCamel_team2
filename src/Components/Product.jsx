@@ -7,10 +7,11 @@ class Product extends Component {
     super();
     this.state = {
       recentItems: JSON.parse(localStorage.getItem("recentItems")),
+      
     };
   }
 
-  AddRecentProduct = (recentItems, ClickProd) => {
+  AddProduct = (recentItems, ClickProd) => {
     recentItems.push(ClickProd);
     const stringProds = JSON.stringify(recentItems);
     localStorage.setItem("recentItems", stringProds);
@@ -18,21 +19,22 @@ class Product extends Component {
 
   HandleProduct = (ClickProd) => {
     let recentItems = this.state.recentItems;
+    
 
+    
     if (recentItems === null) {
       recentItems = [];
-      this.AddRecentProduct(recentItems, ClickProd);
+      this.AddProduct(recentItems, ClickProd);
     } else {
       const filterItems = recentItems.filter(
         (el) => JSON.stringify(el) !== JSON.stringify(ClickProd)
       );
-      this.AddRecentProduct(filterItems, ClickProd);
+      this.AddProduct(filterItems, ClickProd);
     }
   };
 
   render() {
     const { id, title, brand, price } = this.props;
-    console.log("나 불림");
     const ClickProd = {
       title,
       brand,
@@ -42,7 +44,7 @@ class Product extends Component {
       <>
         <Link
           to={{
-            pathname: `/product/${id}`,
+            pathname: "/product",
             state: {
               title,
               brand,

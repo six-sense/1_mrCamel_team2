@@ -32,7 +32,6 @@ class DetailedProduct extends Component {
     this.setState({
       RandomList: mockData,
     });
-
   }
 
   randomLoad = async (currentItem, flag) => {
@@ -126,13 +125,7 @@ class DetailedProduct extends Component {
 
   render() {
     const { location } = this.state;
-    if (this.state.RandomTitle) {
-      const Product = {
-        title: this.state.RandomTitle,
-        brand: this.state.RandomBrand,
-        price: this.state.RandomPrice,
-      };
-    }
+
     if (location.state) {
       const { title, brand, price, id } = location.state;
       const currentItem = { title, brand, price, id };

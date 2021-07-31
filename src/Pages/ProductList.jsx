@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import Product from '../Components/Product';
+import React from "react";
+import styled from "styled-components";
+import Product from "../Components/Product";
 import mockData from "Utils/mockData.json";
 
 class DetailPage extends React.Component {
@@ -10,7 +10,6 @@ class DetailPage extends React.Component {
       ContentList: [],
     };
   }
-
   componentDidMount() {
     this.setState({
       ContentList: mockData,
