@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Checkbox from './Checkbox';
-import productData from 'Utils/mockData.json';
-// import Sort from './Sort';
+
 
 class Filter extends Component {
   constructor(props) {
@@ -13,6 +12,8 @@ class Filter extends Component {
       guzzi: false,
       stone: false,
       louis: false,
+      priceSortTxt:false,
+      recentSortTxt:false,
     };
   }
 
@@ -49,6 +50,7 @@ class Filter extends Component {
         }
         break;
 
+    
       default:
     }
   };
@@ -60,14 +62,32 @@ class Filter extends Component {
       this.props.setCheck(true);
     }
   };
+    
+  //   낮은 가격순 정렬 클릭 이벤트
+  sortClickEvent = (e) => {
+    switch (e.target.id){
+        case 'priceSort':
+            if (this.state.priceSortTxt) {
+                this.setState({ priceSortTxt: false });
+                this.props.setClick(false);
 
-  ascSort = () => {
-    console.log(this.props.click);
-    if (this.props.click) {
-      this.props.setClick(false);
-    } else {
-      this.props.setClick(true);
+            } else {
+                this.setState({ priceSortTxt: true });
+                this.props.setClick(true);
+            }
+            break;
+        
+        case 'recentSort':
+            if(this.state.recentSortTxt){
+                this.setState({recentSortTxt:false})
+                this.props.setRecentClick(false)
+            }else{
+                this.setState({recentSortTxt:true})
+                this.props.setRecentClick(true)
+            }
+            break;
     }
+
   };
 
   render() {
@@ -129,11 +149,11 @@ class Filter extends Component {
             </TextLayout>
           </ItemLayout>
           <ItemLayout wd={28} jc={'space-between'}>
-            <TextLayout fnt={13} col={'black'}>
+            <TextLayout id={'recentSort'} fnt={13} col={this.state.recentSortTxt ? 'black' : 'gray'} onClick={this.sortClickEvent}>
               최근 조회 순
             </TextLayout>
             <Divider2 />
-            <TextLayout fnt={13} col={'gray'} onClick={this.sortByPriceAsc}>
+            <TextLayout id={'priceSort'} fnt={13} col={this.state.priceSortTxt ? 'black' : 'gray'} onClick={this.sortClickEvent}>
               낮은 가격 순
             </TextLayout>
           </ItemLayout>
