@@ -3,11 +3,14 @@ import styled from 'styled-components';
 import nike from 'assets/dummyImage.jpeg';
 
 class Item extends Component {
+  moveToDetail=(e)=>{
+    this.props.history.push(`product/${e.tartget.key}`)
+  }
   render() {
     return (
-      <div>
+      <>
         {this.props.productData?.map((item, idx) => (
-          <ItemBoxLayout key={idx}>
+          <ItemBoxLayout key={idx} onClick={this.moveToDetail}>
             <InnerLayout>
               <ItemLayout wd={45} style={{ flex: 'none' }}>
                 <img
@@ -43,7 +46,7 @@ class Item extends Component {
             </InnerLayout>
           </ItemBoxLayout>
         ))}
-      </div>
+      </>
     );
   }
 }
