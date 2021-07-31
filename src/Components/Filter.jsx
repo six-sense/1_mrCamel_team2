@@ -49,7 +49,16 @@ class Filter extends Component{
         }
     }
 
-    
+
+    dislikeFilter =()=>{
+        if(this.props.check){
+            this.props.setCheck(false)
+        }else{
+            this.props.setCheck(true)
+        }
+        
+    }
+
     render(){
         return(
                 <FilterBoxLayout>
@@ -68,7 +77,9 @@ class Filter extends Component{
 
                     <InnerLayout>
                         <ItemLayout wd={25} jc={'space-between'}>
-                            <Checkbox checked={false}/>
+                            <div onClick={this.dislikeFilter}>   
+                            <Checkbox checked={this.props.check}  /> 
+                            </div>
                             <TextLayout fnt={13} col={'black'}>관심 없는 상품 숨기기</TextLayout>
                         </ItemLayout>
                         <ItemLayout wd={28} jc={'space-between'}>

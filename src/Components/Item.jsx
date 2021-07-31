@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import nike from 'assets/dummyImage.jpeg';
-import productData from 'Utils/mockData.json';
+
 
 class Item extends Component {
   constructor(props) {
     super(props);
+    
   }
   render() {
     return (
       <div>
-        {productData.map((item, idx) => (
+        {this.props.productData.map((item, idx) => (
           <ItemBoxLayout key={idx}>
             <InnerLayout>
               <ItemLayout wd={45} style={{ flex: 'none' }}>
@@ -53,7 +54,7 @@ class Item extends Component {
 }
 
 const ItemBoxLayout = styled.div`
-  width: 650px;
+  width: 100%;
   min-height: 200px;
   display: flex;
   justify-content: center;
