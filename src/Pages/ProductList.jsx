@@ -9,6 +9,7 @@ class DetailPage extends React.Component {
       ContentList: [],
     };
   }
+
   componentDidMount() {
     fetch('http://localhost:3000/data/mock.json')
       .then((res) => res.json())
