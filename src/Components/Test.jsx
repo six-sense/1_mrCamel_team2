@@ -3,23 +3,6 @@ import styled from 'styled-components';
 import nike from 'assets/dummyImage.jpeg';
 import data from 'Utils/mockData.json';
 
-// class Test extends Component {
-//   state = {
-//     products,
-//     prices: [],
-//   };
-
-//   componentDidMount() {
-//     const { products, prices } = this.state;
-//     prices = products.map((p) => p.prices.substr(3));
-//     this.setState({ prices });
-//   }
-
-//   sortAscending = () => {
-//     const { prices } = this.state;
-//     prices.sort((a, b) => a.price - b.price);
-//     this.setState({ prices });
-//   };
 class Test extends Component {
   constructor(props) {
     super(props);
@@ -28,11 +11,6 @@ class Test extends Component {
     };
     this.sortByPriceAsc = this.sortByPriceAsc.bind(this);
   }
-  // sortByPriceAsc() {
-  //   this.setState((prevState) => {
-  //     this.state.productData.sort((a, b) => a.price - b.price);
-  //   });
-  // }
 
   sortByPriceAsc() {
     const { productData } = this.state;
@@ -45,7 +23,6 @@ class Test extends Component {
   }
 
   render() {
-    // const { prices } = this.state;
     return (
       <div>
         <button onClick={this.sortByPriceAsc}>asc BTN</button>

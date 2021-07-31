@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import nike from 'assets/dummyImage.jpeg';
-import products from 'Utils/mockData.json';
 
 class Item extends Component {
   constructor(props) {
@@ -11,7 +10,7 @@ class Item extends Component {
   render() {
     return (
       <div>
-        {products.map((item, idx) => (
+        {this.props.productData.map((item, idx) => (
           <ItemBoxLayout key={idx}>
             <InnerLayout>
               <ItemLayout wd={45} style={{ flex: 'none' }}>
@@ -54,7 +53,7 @@ class Item extends Component {
 }
 
 const ItemBoxLayout = styled.div`
-  width: 650px;
+  width: 100%;
   min-height: 200px;
   display: flex;
   justify-content: center;

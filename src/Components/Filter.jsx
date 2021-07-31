@@ -49,66 +49,83 @@ class Filter extends Component {
     }
   };
 
+  dislikeFilter = () => {
+    if (this.props.check) {
+      this.props.setCheck(false);
+    } else {
+      this.props.setCheck(true);
+    }
+  };
+
   render() {
     return (
-      <>
-        <FilterBoxLayout>
-          <InnerLayout>
-            <ItemLayout wd={50} jc={'space-around'}>
-              <TextLayout fnt={15} col={'black'}>
-                <b>브랜드</b>
-              </TextLayout>
-              <TextLayout
-                fnt={13}
-                col={this.state.nike ? 'black' : 'gray'}
-                cus={'pointer'}
-                id={'나이키'}
-                onClick={this.brandFilter}
-              >
-                나이키
-              </TextLayout>
-              <TextLayout
-                fnt={13}
-                col={this.state.guzzi ? 'black' : 'gray'}
-                cus={'pointer'}
-                id={'구찌'}
-                onClick={this.brandFilter}
-              >
-                구찌
-              </TextLayout>
-              <TextLayout
-                fnt={13}
-                col={this.state.stone ? 'black' : 'gray'}
-                cus={'pointer'}
-                id={'스톤아일랜드'}
-                onClick={this.brandFilter}
-              >
-                스톤아일랜드
-              </TextLayout>
-              <TextLayout
-                fnt={13}
-                col={this.state.louis ? 'black' : 'gray'}
-                cus={'pointer'}
-                id={'루이비통'}
-                onClick={this.brandFilter}
-              >
-                루이비통
-              </TextLayout>
-            </ItemLayout>
-          </InnerLayout>
+      <FilterBoxLayout>
+        <InnerLayout>
+          <ItemLayout wd={50} jc={'space-around'}>
+            <TextLayout fnt={15} col={'black'}>
+              <b>브랜드</b>
+            </TextLayout>
+            <TextLayout
+              fnt={13}
+              col={this.state.nike ? 'black' : 'gray'}
+              cus={'pointer'}
+              id={'나이키'}
+              onClick={this.brandFilter}
+            >
+              나이키
+            </TextLayout>
+            <TextLayout
+              fnt={13}
+              col={this.state.guzzi ? 'black' : 'gray'}
+              cus={'pointer'}
+              id={'구찌'}
+              onClick={this.brandFilter}
+            >
+              구찌
+            </TextLayout>
+            <TextLayout
+              fnt={13}
+              col={this.state.stone ? 'black' : 'gray'}
+              cus={'pointer'}
+              id={'스톤아일랜드'}
+              onClick={this.brandFilter}
+            >
+              스톤아일랜드
+            </TextLayout>
+            <TextLayout
+              fnt={13}
+              col={this.state.louis ? 'black' : 'gray'}
+              cus={'pointer'}
+              id={'루이비통'}
+              onClick={this.brandFilter}
+            >
+              루이비통
+            </TextLayout>
+          </ItemLayout>
+        </InnerLayout>
 
-          <Divider />
-          <InnerLayout>
-            <ItemLayout wd={25} jc={'space-between'}>
-              <Checkbox checked={false} />
-              <TextLayout fnt={13} col={'black'}>
-                관심 없는 상품 숨기기
-              </TextLayout>
-            </ItemLayout>
-            <Sort />
-          </InnerLayout>
-        </FilterBoxLayout>
-      </>
+        <Divider />
+
+        <InnerLayout>
+          <ItemLayout wd={25} jc={'space-between'}>
+            <div onClick={this.dislikeFilter}>
+              <Checkbox checked={this.props.check} />
+            </div>
+            <TextLayout fnt={13} col={'black'}>
+              관심 없는 상품 숨기기
+            </TextLayout>
+          </ItemLayout>
+          <ItemLayout wd={28} jc={'space-between'}>
+            <TextLayout fnt={13} col={'black'}>
+              최근 조회 순
+            </TextLayout>
+            <Divider2 />
+            <TextLayout fnt={13} col={'gray'}>
+              낮은 가격 순
+            </TextLayout>
+          </ItemLayout>
+        </InnerLayout>
+      </FilterBoxLayout>
     );
   }
 }
