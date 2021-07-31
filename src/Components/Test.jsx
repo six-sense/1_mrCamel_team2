@@ -4,8 +4,8 @@ import nike from 'assets/dummyImage.jpeg';
 import data from 'Utils/mockData.json';
 
 class Test extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       productData: data,
     };

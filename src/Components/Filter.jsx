@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Checkbox from './Checkbox';
-import Sort from './Sort';
+// import Sort from './Sort';
 
 class Filter extends Component {
   constructor(props) {
@@ -46,6 +46,8 @@ class Filter extends Component {
           this.setState({ louis: true });
         }
         break;
+
+      default:
     }
   };
 

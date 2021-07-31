@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Filter from 'Components/Filter';
 import Item from 'Components/Item';
-import dislikeSample from 'Utils/dislikeData.json';
+// import productData from 'Utils/mockData.json';
 import recentSample from 'Utils/recentData.json';
+import dislikeSample from 'Utils/dislikeData.json';
 
 class RecentList extends Component {
   constructor(props) {
@@ -10,13 +11,17 @@ class RecentList extends Component {
 
     this.state = {
       brandName: [],
-      // dislikeItems:localStorage.setItem('recentItems_sample', JSON.stringify(recentSample)),
-      recentItems: JSON.parse(localStorage.getItem('recentItems_sample')),
-      dislikeItems: JSON.parse(localStorage.getItem('dislikeItems_sample')),
-      // dislikeItems:localStorage.setItem('dislikeItems_sample', JSON.stringify(dislikeSample)),
-      origin_recentItems: JSON.parse(
-        localStorage.getItem('recentItems_sample')
-      ),
+      // recentItems: localStorage.setItem(
+      //   'recentItems',
+      //   JSON.stringify(recentSample)
+      // ),
+      recentItems: JSON.parse(localStorage.getItem('recentItems')),
+      dislikeItems: JSON.parse(localStorage.getItem('dislikeItems')),
+      // dislikeItems: localStorage.setItem(
+      //   'dislikeItems',
+      //   JSON.stringify(dislikeSample)
+      // ),
+      origin_recentItems: JSON.parse(localStorage.getItem('recentItems')),
       check: false,
     };
   }
@@ -51,7 +56,7 @@ class RecentList extends Component {
           let itemData = '';
           for (itemData of this.state.origin_recentItems) {
             // console.log(itemData.brand)
-            if (itemData.brand == this.state.brandName[i]) {
+            if (itemData.brand === this.state.brandName[i]) {
               newItemData.push(itemData);
             }
           }
@@ -60,10 +65,7 @@ class RecentList extends Component {
       }
       // 브랜드 X
       else {
-        let originItems = JSON.parse(
-          localStorage.getItem('recentItems_sample')
-        );
-        this.setFilterData(originItems);
+        this.setFilterData(this.state.origin_recentItems);
       }
     }
 
@@ -76,18 +78,13 @@ class RecentList extends Component {
           let itemData = '';
           for (itemData of this.state.recentItems) {
             // console.log(itemData.brand)
-            if (itemData.brand == this.state.brandName[i]) {
+            if (itemData.brand === this.state.brandName[i]) {
               newItemData.push(itemData);
             }
           }
         }
-        this.setFilterData(newItemData);
+        // this.setFilterData(newItemData);
       }
-      // // 브랜드 X
-      // else{
-      //     let originItems = JSON.parse(localStorage.getItem("recentItems_sample"))
-      //     this.setFilterData(originItems)
-      // }
     }
   }
 
@@ -140,7 +137,7 @@ class RecentList extends Component {
       (item) => !findTitle.includes(item.title)
     );
     console.log(resultList);
-    this.setFilterData(resultList);
+    // this.setFilterData(resultList);
   }
 
   // 관심없음 X
@@ -151,7 +148,7 @@ class RecentList extends Component {
     }
     // 브랜드 X
     else {
-      let originItems = JSON.parse(localStorage.getItem('recentItems_sample'));
+      let originItems = JSON.parse(localStorage.getItem('recentItems'));
       this.setFilterData(originItems);
     }
   }
@@ -160,45 +157,7 @@ class RecentList extends Component {
     this.setState({ recentItems: arrayList });
   }
 
-  selectBrand = (res) => {
-    // 기존에 선택했던 브랜드 경우 => 선택 제거
-    if (this.state.brandName.includes(res)) {
-      const findIndx = this.state.brandName.indexOf(res);
-      this.state.brandName.splice(findIndx, 1); // 필터링 제거 인덱스 삭제
-      this.setState({ brandName: this.state.brandName }, () => {
-        this.filterData();
-      });
-    }
-    // 최초 선택 => 필터 기능
-    else {
-      this.setState({ brandName: this.state.brandName.concat(res) }, () => {
-        this.filterData();
-      });
-    }
-  };
-
-  filterData() {
-    console.log(this.state.brandName);
-    if (this.state.brandName.length > 0) {
-      let newItemData = [];
-      for (let i = 0; i < this.state.brandName.length; i++) {
-        console.log(this.state.brandName[i]);
-        let itemData = '';
-        for (itemData of productData) {
-          if (itemData.brand == this.state.brandName[i]) {
-            newItemData.push(itemData);
-          }
-        }
-      }
-      this.setFilterData(newItemData);
-    } else {
-      this.setFilterData(productData);
-    }
-  }
-
-  setFilterData(arrayList) {
-    this.setState({ filterdData: arrayList });
-  }
+  //
 
   render() {
     return (

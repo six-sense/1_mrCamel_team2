@@ -3,14 +3,10 @@ import styled from 'styled-components';
 import nike from 'assets/dummyImage.jpeg';
 
 class Item extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div>
-        {this.props.productData.map((item, idx) => (
+        {this.props.productData?.map((item, idx) => (
           <ItemBoxLayout key={idx}>
             <InnerLayout>
               <ItemLayout wd={45} style={{ flex: 'none' }}>
@@ -41,7 +37,7 @@ class Item extends Component {
                   col={'black'}
                   style={{ marginTop: 'auto' }}
                 >
-                  {item.price}원
+                  {`${item.price.toLocaleString()} 원`}
                 </TextLayout>
               </ItemLayout>
             </InnerLayout>

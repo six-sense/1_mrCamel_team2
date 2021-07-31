@@ -1,33 +1,32 @@
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 const CONST_DATA = require('Utils/ConstantData');
 
-class InitStorages extends Component{
-    constructor(props){
-        super(props);
-        this.state={
-            time: new Date(),
-        }
-    }
-    componentDidMount(){
-        this.intervalTimer = setInterval(()=>this.tick(), CONST_DATA.TIMER)
-    }
+class InitStorages extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      time: new Date(),
+    };
+  }
+  componentDidMount() {
+    this.intervalTimer = setInterval(() => this.tick(), 10000);
+  }
 
-    componentWillUnmount(){
-        clearTimeout(this.intervalTimer)
+  componentWillUnmount() {
+    clearTimeout(this.intervalTimer);
+  }
+  tick = () => {
+    this.setState({ time: new Date() });
+    console.log(this.state.time.getHour());
+    if (this.state.time.getHour() === 0) {
+      localStorage.removeItem('recentItems');
+      localStorage.removeItem('dislikeItems');
     }
-    tick= ()=>{
-        this.setState({time:new Date()})
-        if(this.state.time == 0){
-            localStorage.removeItem("recentItems")
-            localStorage.removeItem("dislikeItems")
-        }
-    }
+  };
 
-    render(){
-        return(
-            <></>
-        )
-    }
+  render() {
+    return <></>;
+  }
 }
 
-export default InitStorages
+export default InitStorages;
