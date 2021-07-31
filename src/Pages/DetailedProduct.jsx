@@ -36,7 +36,7 @@ class DetailedProduct extends Component {
       });
   }
 
-  randomLoad = async (currentItem) => {
+  randomLoad = async (currentItem, flag) => {
     const { RandomList, history, location } = this.state;
     const { id } = currentItem;
     let RandomNumber = -1;
@@ -57,27 +57,40 @@ class DetailedProduct extends Component {
       RandomBrand: brand,
       RandomPrice: price,
     });
+    if (this.state.RandomTitle) {
+      const Product = {
+        title: this.state.RandomTitle,
+        brand: this.state.RandomBrand,
+        price: this.state.RandomPrice,
+      };
+      if (flag) {
+        this.HandleProduct(Product);
+      }
+    }
+    history.push(`/product/${this.state.RandomId}`);
+  };
 
-    console.log("랜덤 버튼 클릭");
+  AddRecentProduct = (recentItems, ClickProd) => {
+    recentItems.push(ClickProd);
+    const stringProds = JSON.stringify(recentItems);
+    localStorage.setItem("recentItems", stringProds);
+  };
 
-    // history.push(`/product/${this.state.RandomId}`);
-    // console.log(history);
-    // this.location = history.location;
-    // console.log(location);
-    // console.log(this.state.RandomTitle);
-    // //this.render();
+  HandleProduct = (ClickProd) => {
+    let recentItems = this.state.recentItems;
 
-    // // return (
-    // //   <>
-    // //     {console.log("HI")}
-    // //     <Product
-    // //       id={this.state.RandomId}
-    // //       title={this.state.RandomTitle}
-    // //       brand={this.state.RandomBrand}
-    // //       price={this.state.RandomPrice}
-    // //     />
-    // //   </>
-    // // );
+    if (recentItems === null) {
+      recentItems = [];
+      this.AddRecentProduct(recentItems, ClickProd);
+    } else {
+      const filterItems = recentItems.filter(
+        (el) => JSON.stringify(el) !== JSON.stringify(ClickProd)
+      );
+      this.AddRecentProduct(filterItems, ClickProd);
+      this.setState({
+        recentItems: JSON.parse(localStorage.getItem("recentItems")),
+      });
+    }
   };
 
   HandleDislike = (ClickProd) => {
@@ -93,6 +106,10 @@ class DetailedProduct extends Component {
       );
       this.AddDislikeProduct(filterItems, ClickProd);
     }
+    this.setState({
+      dislikeItems: JSON.parse(localStorage.getItem("dislikeItems")),
+    });
+    this.randomLoad(ClickProd, false);
   };
 
   AddDislikeProduct = (dislikeItems, ClickProd) => {
@@ -110,10 +127,17 @@ class DetailedProduct extends Component {
 
   render() {
     const { location } = this.state;
-
+    if (this.state.RandomTitle) {
+      const Product = {
+        title: this.state.RandomTitle,
+        brand: this.state.RandomBrand,
+        price: this.state.RandomPrice,
+      };
+    }
     if (location.state) {
       const { title, brand, price, id } = location.state;
       const currentItem = { title, brand, price, id };
+
       return (
         <ProductContainer>
           <ProductWrap>
@@ -128,18 +152,26 @@ class DetailedProduct extends Component {
               <ProductContentWrap>
                 <ContentWrap>
                   <ProductTitle>
-                    <h1>{this.state.RandomTitle ? this.state.RandomTitle : title}</h1>
+                    <h1>
+                      {this.state.RandomTitle ? this.state.RandomTitle : title}
+                    </h1>
                   </ProductTitle>
                   <ProductBrand>
-                    <h2>{this.state.RandomBrand ? this.state.RandomBrand : brand}</h2>
+                    <h2>
+                      {this.state.RandomBrand ? this.state.RandomBrand : brand}
+                    </h2>
                   </ProductBrand>
                   <ProductPrice>
-                    <h1>{`${this.state.RandomPrice ? this.state.RandomPrice : price.toLocaleString()} 원`}</h1>
+                    <h1>{`${
+                      this.state.RandomPrice
+                        ? this.state.RandomPrice
+                        : price.toLocaleString()
+                    } 원`}</h1>
                   </ProductPrice>
                 </ContentWrap>
                 <BtnWrap>
                   <RandomBtn>
-                    <button onClick={() => this.randomLoad(currentItem)}>
+                    <button onClick={() => this.randomLoad(currentItem, true)}>
                       랜덤상품 조회
                     </button>
                   </RandomBtn>
