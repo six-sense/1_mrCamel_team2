@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.js": "/1_mrCamel_team2/static/js/main.e2c9f601.chunk.js",
-    "main.js.map": "/1_mrCamel_team2/static/js/main.e2c9f601.chunk.js.map",
+    "main.js": "/1_mrCamel_team2/static/js/main.109c9b93.chunk.js",
+    "main.js.map": "/1_mrCamel_team2/static/js/main.109c9b93.chunk.js.map",
     "runtime-main.js": "/1_mrCamel_team2/static/js/runtime-main.39b0bad2.js",
     "runtime-main.js.map": "/1_mrCamel_team2/static/js/runtime-main.39b0bad2.js.map",
-    "static/js/2.86c3b8ec.chunk.js": "/1_mrCamel_team2/static/js/2.86c3b8ec.chunk.js",
-    "static/js/2.86c3b8ec.chunk.js.map": "/1_mrCamel_team2/static/js/2.86c3b8ec.chunk.js.map",
+    "static/js/2.b3ccf46a.chunk.js": "/1_mrCamel_team2/static/js/2.b3ccf46a.chunk.js",
+    "static/js/2.b3ccf46a.chunk.js.map": "/1_mrCamel_team2/static/js/2.b3ccf46a.chunk.js.map",
     "index.html": "/1_mrCamel_team2/index.html",
-    "static/js/2.86c3b8ec.chunk.js.LICENSE.txt": "/1_mrCamel_team2/static/js/2.86c3b8ec.chunk.js.LICENSE.txt",
+    "static/js/2.b3ccf46a.chunk.js.LICENSE.txt": "/1_mrCamel_team2/static/js/2.b3ccf46a.chunk.js.LICENSE.txt",
     "static/media/dummyImage.08d91f37.jpeg": "/1_mrCamel_team2/static/media/dummyImage.08d91f37.jpeg"
   },
   "entrypoints": [
     "static/js/runtime-main.39b0bad2.js",
-    "static/js/2.86c3b8ec.chunk.js",
-    "static/js/main.e2c9f601.chunk.js"
+    "static/js/2.b3ccf46a.chunk.js",
+    "static/js/main.109c9b93.chunk.js"
   ]
 }
