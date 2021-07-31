@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Product from '../Components/Product';
+import mockData from "Utils/mockData.json";
 
 class DetailPage extends React.Component {
   constructor() {
@@ -11,13 +12,9 @@ class DetailPage extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:3000/data/mock.json')
-      .then((res) => res.json())
-      .then((data) => {
-        this.setState({
-          ContentList: data,
-        });
-      });
+    this.setState({
+      ContentList: mockData,
+    });
   }
 
   render() {

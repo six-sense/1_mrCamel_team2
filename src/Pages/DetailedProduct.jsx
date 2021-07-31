@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import Product from "Components/Product";
+import mockData from "Utils/mockData.json";
+
 class DetailedProduct extends Component {
   constructor(props) {
     super(props);
@@ -27,13 +29,10 @@ class DetailedProduct extends Component {
     }
 
     // 랜덤 로드용 fetch()
-    fetch("http://localhost:3000/data/mock.json")
-      .then((res) => res.json())
-      .then((data) => {
-        this.setState({
-          RandomList: data,
-        });
-      });
+    this.setState({
+      RandomList: mockData,
+    });
+
   }
 
   randomLoad = async (currentItem, flag) => {
