@@ -1,18 +1,18 @@
-import React, { Component } from "react";
-import styled from "styled-components";
-import Product from "Components/Product";
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import Product from 'Components/Product';
 class DetailedProduct extends Component {
   constructor(props) {
     super(props);
     this.state = {
       dislikeItems: JSON.parse(localStorage.getItem(`dislikeItems`)),
-      recentItems: JSON.parse(localStorage.getItem("recentItems")),
+      recentItems: JSON.parse(localStorage.getItem('recentItems')),
       RandomList: [],
       location: this.props.location,
       history: this.props.history,
       RandomId: -1,
-      RandomTitle: "",
-      RandomBrand: "",
+      RandomTitle: '',
+      RandomBrand: '',
       RandomPrice: 0,
     };
   }
@@ -22,12 +22,12 @@ class DetailedProduct extends Component {
 
     // 클릭해서 들어온 것이 아니면 home으로 return
     if (location.state === undefined) {
-      history.push("/");
+      history.push('/');
       return;
     }
 
     // 랜덤 로드용 fetch()
-    fetch("http://localhost:3000/data/mock.json")
+    fetch('http://localhost:3000/data/mock.json')
       .then((res) => res.json())
       .then((data) => {
         this.setState({
@@ -58,7 +58,7 @@ class DetailedProduct extends Component {
       RandomPrice: price,
     });
 
-    console.log("랜덤 버튼 클릭");
+    console.log('랜덤 버튼 클릭');
 
     // history.replace(`/product/${this.state.RandomId}`,{
     //   title : this.state.RandomTitle,
@@ -83,7 +83,7 @@ class DetailedProduct extends Component {
   };
 
   HandleDislike = (ClickProd) => {
-    console.log("관심없음 버튼 클릭");
+    console.log('관심없음 버튼 클릭');
     let dislikeItems = this.state.dislikeItems;
 
     if (dislikeItems === null) {
@@ -100,7 +100,7 @@ class DetailedProduct extends Component {
   AddDislikeProduct = (dislikeItems, ClickProd) => {
     dislikeItems.push(ClickProd);
     const stringProds = JSON.stringify(dislikeItems);
-    localStorage.setItem("dislikeItems", stringProds);
+    localStorage.setItem('dislikeItems', stringProds);
   };
 
   HandleRecentList = () => {
@@ -111,7 +111,7 @@ class DetailedProduct extends Component {
   };
 
   render() {
-    console.log("gd");
+    console.log('gd');
     const { location } = this.state;
     // 이슈1.
     // 새로 고침하면 홈으로가짐. 근데 이게 맞는거 같음
@@ -126,20 +126,21 @@ class DetailedProduct extends Component {
               <img
                 src={`https://picsum.photos/3`}
                 alt="product"
-                aria-label={brand + "image"}
+                aria-label={brand + 'image'}
               />
             </LeftSide>
             <RightSide>
               <ProductContentWrap>
                 <ContentWrap>
                   <ProductTitle>
-                    <h1>{title}</h1>
+                    <h1>{this.state.RandomTitle}</h1>
                   </ProductTitle>
                   <ProductBrand>
-                    <h2>{brand}</h2>
+                    <h2>{this.state.RandomBrand}</h2>
                   </ProductBrand>
                   <ProductPrice>
-                    <h1>{`${price.toLocaleString()} 원`}</h1>
+                    {/* <h1>{`${price.toLocaleString()} 원`}</h1> */}
+                    <h1>{this.state.RandomPrice}</h1>
                   </ProductPrice>
                 </ContentWrap>
                 <BtnWrap>
