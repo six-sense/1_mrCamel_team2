@@ -7,7 +7,6 @@ class Product extends Component {
     super();
     this.state = {
       recentItems: JSON.parse(localStorage.getItem("recentItems")),
-      
     };
   }
 
@@ -19,9 +18,7 @@ class Product extends Component {
 
   HandleProduct = (ClickProd) => {
     let recentItems = this.state.recentItems;
-    
 
-    
     if (recentItems === null) {
       recentItems = [];
       this.AddProduct(recentItems, ClickProd);
@@ -44,7 +41,7 @@ class Product extends Component {
       <>
         <Link
           to={{
-            pathname: "/product",
+            pathname: `/product/${id}`,
             state: {
               title,
               brand,
