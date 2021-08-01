@@ -35,7 +35,7 @@ class DetailedProduct extends Component {
   }
 
   randomLoad = async (currentItem, flag) => {
-    const { RandomList, history, location } = this.state;
+    const { RandomList, history} = this.state;
     const { id } = currentItem;
     let RandomNumber = -1;
 
@@ -68,6 +68,7 @@ class DetailedProduct extends Component {
     history.push(`/product/${this.state.RandomId}`);
   };
 
+  // 최근 조회 로컬 스토리지 저장 
   AddRecentProduct = (recentItems, ClickProd) => {
     recentItems.push(ClickProd);
     const stringProds = JSON.stringify(recentItems);
@@ -91,6 +92,7 @@ class DetailedProduct extends Component {
     }
   };
 
+  // 관심 없음 로컬 스토리지 저장
   HandleDislike = (ClickProd) => {
     console.log("관심없음 버튼 클릭");
     let dislikeItems = this.state.dislikeItems;
@@ -115,7 +117,7 @@ class DetailedProduct extends Component {
     const stringProds = JSON.stringify(dislikeItems);
     localStorage.setItem("dislikeItems", stringProds);
   };
-
+// 상품 조회 이력 버튼 페이지 이동.
   HandleRecentList = () => {
     const { history } = this.state;
     history.push({
