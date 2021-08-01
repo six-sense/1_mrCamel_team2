@@ -9,7 +9,7 @@ class DetailedProduct extends Component {
     this.state = {
       dislikeItems: JSON.parse(localStorage.getItem(`dislikeItems`)),
       recentItems: JSON.parse(localStorage.getItem("recentItems")),
-      RandomList: [],
+      ItemList: [],
       location: this.props.location,
       history: this.props.history,
       RandomId: -1,
@@ -30,31 +30,41 @@ class DetailedProduct extends Component {
 
     // 랜덤 로드용 fetch()
     this.setState({
-      RandomList: mockData,
+      ItemList: mockData,
     });
   }
 
   randomLoad = async (currentItem, flag) => {
-    const { RandomList, history } = this.state;
-    const { id } = currentItem;
+    const { ItemList, history, dislikeItems } = this.state;
     let RandomNumber = -1;
 
-    while (1) {
-      const getRandom = (min, max) => Math.floor(Math.random() * (max - min));
+    let dislikeTitle = "";
+    let dislikeTitleList = [];
 
-      RandomNumber = getRandom(0, RandomList.length);
-      if (id !== RandomNumber) {
-        break;
-      }
+    if(dislikeItems) {
+      for(dislikeTitle of dislikeItems) {
+        dislikeTitleList.push(dislikeTitle.title);
+      } 
     }
+    
+    // 차집합 : 전체 데이터 - 관심 없는 데이터 
+    let likeList = ItemList.filter((el) => !dislikeTitleList.includes(el.title));
+    // 차집합 : likeList - 현재 선택된 데이터
+    // 즉, 랜덤 로드시 관심 없는 상품과 현재 상품을 제외하고 랜덤 로드
+    likeList = likeList.filter((el) => currentItem.title !== el.title);
 
-    const { title, brand, price } = RandomList[RandomNumber];
+    // 랜덤번호 생성
+    const getRandom = (min, max) => Math.floor(Math.random() * (max - min));
+    RandomNumber = getRandom(0, likeList.length);
+
+    const { title, brand, price } = likeList[RandomNumber];
     await this.setState({
       RandomId: RandomNumber,
       RandomTitle: title,
       RandomBrand: brand,
       RandomPrice: price,
     });
+
     if (this.state.RandomTitle) {
       const Product = {
         title: this.state.RandomTitle,
@@ -154,26 +164,20 @@ class DetailedProduct extends Component {
               <ProductContentWrap>
                 <ContentWrap>
                   <ProductTitle>
-                    <h1>
-                      {RandomTitle ? RandomTitle: title}
-                    </h1>
+                    <h1>{RandomTitle ? RandomTitle : title}</h1>
                   </ProductTitle>
                   <ProductBrand>
-                    <h2>
-                      {RandomBrand ? RandomBrand : brand}
-                    </h2>
+                    <h2>{RandomBrand ? RandomBrand : brand}</h2>
                   </ProductBrand>
                   <ProductPrice>
                     <h1>{`${
-                      RandomPrice
-                        ? RandomPrice
-                        : price.toLocaleString()
+                      RandomPrice ? RandomPrice : price.toLocaleString()
                     } 원`}</h1>
                   </ProductPrice>
                 </ContentWrap>
                 <BtnWrap>
                   <RandomBtn>
-                    <button onClick={() => this.randomLoad(currentItem, true)}>
+                    <button onClick={() => this.randomLoad(RandomTitle ? RandomProduct : currentItem, true)}>
                       랜덤상품 조회
                     </button>
                   </RandomBtn>
