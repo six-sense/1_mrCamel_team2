@@ -41,14 +41,17 @@ class DetailedProduct extends Component {
     let dislikeTitle = "";
     let dislikeTitleList = [];
 
-    if(dislikeItems) {
-      for(dislikeTitle of dislikeItems) {
+    if (dislikeItems) {
+      for (dislikeTitle of dislikeItems) {
         dislikeTitleList.push(dislikeTitle.title);
-      } 
+      }
     }
-    
-    // 차집합 : 전체 데이터 - 관심 없는 데이터 
-    let likeList = ItemList.filter((el) => !dislikeTitleList.includes(el.title));
+
+    // 차집합 : 전체 데이터 - 관심 없는 데이터
+    let likeList = ItemList.filter(
+      (el) => !dislikeTitleList.includes(el.title)
+    );
+
     // 차집합 : likeList - 현재 선택된 데이터
     // 즉, 랜덤 로드시 관심 없는 상품과 현재 상품을 제외하고 랜덤 로드
     likeList = likeList.filter((el) => currentItem.title !== el.title);
@@ -177,7 +180,14 @@ class DetailedProduct extends Component {
                 </ContentWrap>
                 <BtnWrap>
                   <RandomBtn>
-                    <button onClick={() => this.randomLoad(RandomTitle ? RandomProduct : currentItem, true)}>
+                    <button
+                      onClick={() =>
+                        this.randomLoad(
+                          RandomTitle ? RandomProduct : currentItem,
+                          true
+                        )
+                      }
+                    >
                       랜덤상품 조회
                     </button>
                   </RandomBtn>
