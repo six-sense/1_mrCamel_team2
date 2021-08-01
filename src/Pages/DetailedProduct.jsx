@@ -35,7 +35,7 @@ class DetailedProduct extends Component {
   }
 
   randomLoad = async (currentItem, flag) => {
-    const { RandomList, history} = this.state;
+    const { RandomList, history } = this.state;
     const { id } = currentItem;
     let RandomNumber = -1;
 
@@ -68,7 +68,7 @@ class DetailedProduct extends Component {
     history.push(`/product/${this.state.RandomId}`);
   };
 
-  // 최근 조회 로컬 스토리지 저장 
+  // 최근 조회 로컬 스토리지 저장
   AddRecentProduct = (recentItems, ClickProd) => {
     recentItems.push(ClickProd);
     const stringProds = JSON.stringify(recentItems);
@@ -93,8 +93,13 @@ class DetailedProduct extends Component {
   };
 
   // 관심 없음 로컬 스토리지 저장
+  AddDislikeProduct = (dislikeItems, ClickProd) => {
+    dislikeItems.push(ClickProd);
+    const stringProds = JSON.stringify(dislikeItems);
+    localStorage.setItem("dislikeItems", stringProds);
+  };
+
   HandleDislike = (ClickProd) => {
-    console.log("관심없음 버튼 클릭");
     let dislikeItems = this.state.dislikeItems;
 
     if (dislikeItems === null) {
@@ -104,6 +109,7 @@ class DetailedProduct extends Component {
       const filterItems = dislikeItems.filter(
         (el) => JSON.stringify(el) !== JSON.stringify(ClickProd)
       );
+
       this.AddDislikeProduct(filterItems, ClickProd);
     }
     this.setState({
@@ -112,12 +118,7 @@ class DetailedProduct extends Component {
     this.randomLoad(ClickProd, false);
   };
 
-  AddDislikeProduct = (dislikeItems, ClickProd) => {
-    dislikeItems.push(ClickProd);
-    const stringProds = JSON.stringify(dislikeItems);
-    localStorage.setItem("dislikeItems", stringProds);
-  };
-// 상품 조회 이력 버튼 페이지 이동.
+  // 상품 조회 이력 버튼 페이지 이동.
   HandleRecentList = () => {
     const { history } = this.state;
     history.push({
@@ -126,11 +127,18 @@ class DetailedProduct extends Component {
   };
 
   render() {
-    const { location } = this.state;
-
+    const { location, RandomTitle, RandomBrand, RandomPrice } = this.state;
+    let RandomProduct = {};
     if (location.state) {
       const { title, brand, price, id } = location.state;
       const currentItem = { title, brand, price, id };
+      if (RandomTitle) {
+        RandomProduct = {
+          title: RandomTitle,
+          brand: RandomBrand,
+          price: RandomPrice,
+        };
+      }
 
       return (
         <ProductContainer>
@@ -147,18 +155,18 @@ class DetailedProduct extends Component {
                 <ContentWrap>
                   <ProductTitle>
                     <h1>
-                      {this.state.RandomTitle ? this.state.RandomTitle : title}
+                      {RandomTitle ? RandomTitle: title}
                     </h1>
                   </ProductTitle>
                   <ProductBrand>
                     <h2>
-                      {this.state.RandomBrand ? this.state.RandomBrand : brand}
+                      {RandomBrand ? RandomBrand : brand}
                     </h2>
                   </ProductBrand>
                   <ProductPrice>
                     <h1>{`${
-                      this.state.RandomPrice
-                        ? this.state.RandomPrice
+                      RandomPrice
+                        ? RandomPrice
                         : price.toLocaleString()
                     } 원`}</h1>
                   </ProductPrice>
@@ -170,7 +178,13 @@ class DetailedProduct extends Component {
                     </button>
                   </RandomBtn>
                   <NoInterestBtn>
-                    <button onClick={() => this.HandleDislike(currentItem)}>
+                    <button
+                      onClick={() =>
+                        this.HandleDislike(
+                          RandomTitle ? RandomProduct : currentItem
+                        )
+                      }
+                    >
                       관심없음
                     </button>
                   </NoInterestBtn>
