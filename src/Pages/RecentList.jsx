@@ -28,6 +28,7 @@ class RecentList extends Component {
       check: false,
       click: false, // 낮은 가격 정렬 버튼
       recentClick: false, // 최근 조회 정렬 버튼
+      history: this.props.history
     };
     // this.sortByPriceAsc = this.sortByPriceAsc.bind(this);
   }
@@ -216,6 +217,7 @@ class RecentList extends Component {
   }
 
   render() {
+    
     return (
       <div style={{ width: "650px", flexDirection: "column", margin: "auto" }}>
         <Filter
@@ -230,6 +232,7 @@ class RecentList extends Component {
         <Item
           selectBrand={this.state.brandName}
           productData={this.state.recentItems}
+          history={this.state.history}
         />
       </div>
     );

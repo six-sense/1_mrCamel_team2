@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Product from 'Components/Product';
+import mockData from 'Utils/mockData.json';
+
 class DetailedProduct extends Component {
   constructor(props) {
     super(props);
     this.state = {
       dislikeItems: JSON.parse(localStorage.getItem(`dislikeItems`)),
       recentItems: JSON.parse(localStorage.getItem('recentItems')),
-      RandomList: [],
+      ItemList: [],
       location: this.props.location,
       history: this.props.history,
       RandomId: -1,
@@ -27,36 +29,45 @@ class DetailedProduct extends Component {
     }
 
     // 랜덤 로드용 fetch()
-    fetch('http://localhost:3000/data/mock.json')
-      .then((res) => res.json())
-      .then((data) => {
-        this.setState({
-          RandomList: data,
-        });
-      });
+    this.setState({
+      ItemList: mockData,
+    });
   }
 
   randomLoad = async (currentItem, flag) => {
-    const { RandomList, history, location } = this.state;
-    const { id } = currentItem;
+    const { ItemList, history, dislikeItems } = this.state;
     let RandomNumber = -1;
 
-    while (1) {
-      const getRandom = (min, max) => Math.floor(Math.random() * (max - min));
+    let dislikeTitle = '';
+    let dislikeTitleList = [];
 
-      RandomNumber = getRandom(0, RandomList.length);
-      if (id !== RandomNumber) {
-        break;
+    if (dislikeItems) {
+      for (dislikeTitle of dislikeItems) {
+        dislikeTitleList.push(dislikeTitle.title);
       }
     }
 
-    const { title, brand, price } = RandomList[RandomNumber];
+    // 차집합 : 전체 데이터 - 관심 없는 데이터
+    let likeList = ItemList.filter(
+      (el) => !dislikeTitleList.includes(el.title)
+    );
+
+    // 차집합 : likeList - 현재 선택된 데이터
+    // 즉, 랜덤 로드시 관심 없는 상품과 현재 상품을 제외하고 랜덤 로드
+    likeList = likeList.filter((el) => currentItem.title !== el.title);
+
+    // 랜덤번호 생성
+    const getRandom = (min, max) => Math.floor(Math.random() * (max - min));
+    RandomNumber = getRandom(0, likeList.length);
+
+    const { title, brand, price } = likeList[RandomNumber];
     await this.setState({
       RandomId: RandomNumber,
       RandomTitle: title,
       RandomBrand: brand,
       RandomPrice: price,
     });
+
     if (this.state.RandomTitle) {
       const Product = {
         title: this.state.RandomTitle,
@@ -70,6 +81,7 @@ class DetailedProduct extends Component {
     history.push(`/product/${this.state.RandomId}`);
   };
 
+  // 최근 조회 로컬 스토리지 저장
   AddRecentProduct = (recentItems, ClickProd) => {
     recentItems.push(ClickProd);
     const stringProds = JSON.stringify(recentItems);
@@ -93,8 +105,14 @@ class DetailedProduct extends Component {
     }
   };
 
+  // 관심 없음 로컬 스토리지 저장
+  AddDislikeProduct = (dislikeItems, ClickProd) => {
+    dislikeItems.push(ClickProd);
+    const stringProds = JSON.stringify(dislikeItems);
+    localStorage.setItem('dislikeItems', stringProds);
+  };
+
   HandleDislike = (ClickProd) => {
-    console.log('관심없음 버튼 클릭');
     let dislikeItems = this.state.dislikeItems;
 
     if (dislikeItems === null) {
@@ -104,6 +122,7 @@ class DetailedProduct extends Component {
       const filterItems = dislikeItems.filter(
         (el) => JSON.stringify(el) !== JSON.stringify(ClickProd)
       );
+
       this.AddDislikeProduct(filterItems, ClickProd);
     }
     this.setState({
@@ -112,12 +131,7 @@ class DetailedProduct extends Component {
     this.randomLoad(ClickProd, false);
   };
 
-  AddDislikeProduct = (dislikeItems, ClickProd) => {
-    dislikeItems.push(ClickProd);
-    const stringProds = JSON.stringify(dislikeItems);
-    localStorage.setItem('dislikeItems', stringProds);
-  };
-
+  // 상품 조회 이력 버튼 페이지 이동.
   HandleRecentList = () => {
     const { history } = this.state;
     history.push({
@@ -126,17 +140,18 @@ class DetailedProduct extends Component {
   };
 
   render() {
-    const { location } = this.state;
-    if (this.state.RandomTitle) {
-      const Product = {
-        title: this.state.RandomTitle,
-        brand: this.state.RandomBrand,
-        price: this.state.RandomPrice,
-      };
-    }
+    const { location, RandomTitle, RandomBrand, RandomPrice } = this.state;
+    let RandomProduct = {};
     if (location.state) {
       const { title, brand, price, id } = location.state;
       const currentItem = { title, brand, price, id };
+      if (RandomTitle) {
+        RandomProduct = {
+          title: RandomTitle,
+          brand: RandomBrand,
+          price: RandomPrice,
+        };
+      }
 
       return (
         <ProductContainer>
@@ -152,31 +167,38 @@ class DetailedProduct extends Component {
               <ProductContentWrap>
                 <ContentWrap>
                   <ProductTitle>
-                    <h1>
-                      {this.state.RandomTitle ? this.state.RandomTitle : title}
-                    </h1>
+                    <h1>{RandomTitle ? RandomTitle : title}</h1>
                   </ProductTitle>
                   <ProductBrand>
-                    <h2>
-                      {this.state.RandomBrand ? this.state.RandomBrand : brand}
-                    </h2>
+                    <h2>{RandomBrand ? RandomBrand : brand}</h2>
                   </ProductBrand>
                   <ProductPrice>
                     <h1>{`${
-                      this.state.RandomPrice
-                        ? this.state.RandomPrice
-                        : price.toLocaleString()
+                      RandomPrice ? RandomPrice : price.toLocaleString()
                     } 원`}</h1>
                   </ProductPrice>
                 </ContentWrap>
                 <BtnWrap>
                   <RandomBtn>
-                    <button onClick={() => this.randomLoad(currentItem, true)}>
+                    <button
+                      onClick={() =>
+                        this.randomLoad(
+                          RandomTitle ? RandomProduct : currentItem,
+                          true
+                        )
+                      }
+                    >
                       랜덤상품 조회
                     </button>
                   </RandomBtn>
                   <NoInterestBtn>
-                    <button onClick={() => this.HandleDislike(currentItem)}>
+                    <button
+                      onClick={() =>
+                        this.HandleDislike(
+                          RandomTitle ? RandomProduct : currentItem
+                        )
+                      }
+                    >
                       관심없음
                     </button>
                   </NoInterestBtn>

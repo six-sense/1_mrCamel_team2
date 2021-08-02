@@ -2,16 +2,47 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import nike from 'assets/dummyImage.jpeg';
 
+
 class Item extends Component {
-  moveToDetail=(e)=>{
-    this.props.history.push(`product/${e.tartget.key}`)
+  constructor(props){
+    super(props);
+    this.state=({
+      //로컬스토리지 관심없음 데이터 저장
+      dislikeData: JSON.parse(localStorage.getItem("dislikeItems")),
+      ContentList:[]
+    })
   }
+  
+  componentDidMount() {
+    fetch('http://localhost:3000/data/mock.json')
+      .then((res) => res.json())
+      .then((data) => {
+        this.setState({
+          ContentList: data,
+        });
+      });
+     
+  }
+
+  makeDislikeList=(item, idx)=>{
+    for(let itemData of this.state.dislikeData){
+      if(item.title === itemData.title){
+        alert('24시간 후 조회 가능')
+      }
+      else{
+        this.props.history.push(`/product/${idx}`)
+      }
+    }
+  }
+
   render() {
+    
     return (
       <>
         {this.props.productData?.map((item, idx) => (
-          <ItemBoxLayout key={idx} onClick={this.moveToDetail}>
+          <ItemBoxLayout key={idx} onClick={()=>{this.makeDislikeList(item,idx)}}>
             <InnerLayout>
+              
               <ItemLayout wd={45} style={{ flex: 'none' }}>
                 <img
                   src={nike}

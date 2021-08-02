@@ -2,9 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import styled from 'styled-components';
 
 class Checkbox extends Component {
-  constructor(props) {
-    super(props);
-  }
+  
 
   render() {
     return (

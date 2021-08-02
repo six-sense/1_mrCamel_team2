@@ -86,6 +86,7 @@ class Filter extends Component {
                 this.props.setRecentClick(true)
             }
             break;
+            default:
     }
 
   };
