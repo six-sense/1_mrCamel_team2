@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import styled from "styled-components";
 
 class DetailedProduct extends Component {
-
   componentDidMount() {
     const { location, history } = this.props;
     // 클릭해서 들어온 것이 아니면 home으로 return
+
     if (location.state === undefined) {
       history.push("/");
     }
