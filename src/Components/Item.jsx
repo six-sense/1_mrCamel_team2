@@ -1,18 +1,48 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import nike from 'assets/dummyImage.jpeg';
-import productData from 'Utils/mockData.json';
+
 
 class Item extends Component {
-  constructor(props) {
+  constructor(props){
     super(props);
+    this.state=({
+      //로컬스토리지 관심없음 데이터 저장
+      dislikeData: JSON.parse(localStorage.getItem("dislikeItems")),
+      ContentList:[]
+    })
   }
+  
+  componentDidMount() {
+    fetch('http://localhost:3000/data/mock.json')
+      .then((res) => res.json())
+      .then((data) => {
+        this.setState({
+          ContentList: data,
+        });
+      });
+     
+  }
+
+  makeDislikeList=(item, idx)=>{
+    for(let itemData of this.state.dislikeData){
+      if(item.title === itemData.title){
+        alert('24시간 후 조회 가능')
+      }
+      else{
+        this.props.history.push(`/product/${idx}`)
+      }
+    }
+  }
+
   render() {
+    
     return (
-      <div>
-        {productData.map((item, idx) => (
-          <ItemBoxLayout key={idx}>
+      <>
+        {this.props.productData?.map((item, idx) => (
+          <ItemBoxLayout key={idx} onClick={()=>{this.makeDislikeList(item,idx)}}>
             <InnerLayout>
+              
               <ItemLayout wd={45} style={{ flex: 'none' }}>
                 <img
                   src={nike}
@@ -41,19 +71,19 @@ class Item extends Component {
                   col={'black'}
                   style={{ marginTop: 'auto' }}
                 >
-                  {item.price}원
+                  {`${item.price.toLocaleString()} 원`}
                 </TextLayout>
               </ItemLayout>
             </InnerLayout>
           </ItemBoxLayout>
         ))}
-      </div>
+      </>
     );
   }
 }
 
 const ItemBoxLayout = styled.div`
-  width: 650px;
+  width: 100%;
   min-height: 200px;
   display: flex;
   justify-content: center;

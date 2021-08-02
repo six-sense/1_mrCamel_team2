@@ -2,9 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import styled from 'styled-components';
 
 class Checkbox extends Component {
-  constructor(props) {
-    super(props);
-  }
+  
 
   render() {
     return (
@@ -12,15 +10,12 @@ class Checkbox extends Component {
         <HiddenCheckBox
           type="checkbox"
           checked={this.props.checked}
-          {...this.props}
-        />{' '}
+        />
         <StyledCheckBox checked={this.props.checked}>
-          {' '}
           <Icon viewBox="0 0 24 24">
-            {' '}
             <polyline points="19 7 10 17 5 12" />{' '}
-          </Icon>{' '}
-        </StyledCheckBox>{' '}
+          </Icon>
+        </StyledCheckBox>
       </CheckBoxContainer>
     );
   }

@@ -41,7 +41,7 @@ class Product extends Component {
       <>
         <Link
           to={{
-            pathname: "/product",
+            pathname: `/product/${id}`,
             state: {
               title,
               brand,

@@ -1,59 +1,194 @@
-import React, { Component } from "react";
-import styled from "styled-components";
-
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import Product from 'Components/Product';
 class DetailedProduct extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dislikeItems: JSON.parse(localStorage.getItem(`dislikeItems`)),
+      recentItems: JSON.parse(localStorage.getItem('recentItems')),
+      RandomList: [],
+      location: this.props.location,
+      history: this.props.history,
+      RandomId: -1,
+      RandomTitle: '',
+      RandomBrand: '',
+      RandomPrice: 0,
+    };
+  }
+
   componentDidMount() {
-    const { location, history } = this.props;
+    const { location, history } = this.state;
+
     // 클릭해서 들어온 것이 아니면 home으로 return
 
     if (location.state === undefined) {
-      history.push("/");
+      history.push('/');
+      return;
     }
+
+    // 랜덤 로드용 fetch()
+    fetch('http://localhost:3000/data/mock.json')
+      .then((res) => res.json())
+      .then((data) => {
+        this.setState({
+          RandomList: data,
+        });
+      });
   }
 
+  randomLoad = async (currentItem, flag) => {
+    const { RandomList, history, location } = this.state;
+    const { id } = currentItem;
+    let RandomNumber = -1;
+
+    while (1) {
+      const getRandom = (min, max) => Math.floor(Math.random() * (max - min));
+
+      RandomNumber = getRandom(0, RandomList.length);
+      if (id !== RandomNumber) {
+        break;
+      }
+    }
+
+    const { title, brand, price } = RandomList[RandomNumber];
+    await this.setState({
+      RandomId: RandomNumber,
+      RandomTitle: title,
+      RandomBrand: brand,
+      RandomPrice: price,
+    });
+    if (this.state.RandomTitle) {
+      const Product = {
+        title: this.state.RandomTitle,
+        brand: this.state.RandomBrand,
+        price: this.state.RandomPrice,
+      };
+      if (flag) {
+        this.HandleProduct(Product);
+      }
+    }
+    history.push(`/product/${this.state.RandomId}`);
+  };
+
+  AddRecentProduct = (recentItems, ClickProd) => {
+    recentItems.push(ClickProd);
+    const stringProds = JSON.stringify(recentItems);
+    localStorage.setItem('recentItems', stringProds);
+  };
+
+  HandleProduct = (ClickProd) => {
+    let recentItems = this.state.recentItems;
+
+    if (recentItems === null) {
+      recentItems = [];
+      this.AddRecentProduct(recentItems, ClickProd);
+    } else {
+      const filterItems = recentItems.filter(
+        (el) => JSON.stringify(el) !== JSON.stringify(ClickProd)
+      );
+      this.AddRecentProduct(filterItems, ClickProd);
+      this.setState({
+        recentItems: JSON.parse(localStorage.getItem('recentItems')),
+      });
+    }
+  };
+
+  HandleDislike = (ClickProd) => {
+    console.log('관심없음 버튼 클릭');
+    let dislikeItems = this.state.dislikeItems;
+
+    if (dislikeItems === null) {
+      dislikeItems = [];
+      this.AddDislikeProduct(dislikeItems, ClickProd);
+    } else {
+      const filterItems = dislikeItems.filter(
+        (el) => JSON.stringify(el) !== JSON.stringify(ClickProd)
+      );
+      this.AddDislikeProduct(filterItems, ClickProd);
+    }
+    this.setState({
+      dislikeItems: JSON.parse(localStorage.getItem('dislikeItems')),
+    });
+    this.randomLoad(ClickProd, false);
+  };
+
+  AddDislikeProduct = (dislikeItems, ClickProd) => {
+    dislikeItems.push(ClickProd);
+    const stringProds = JSON.stringify(dislikeItems);
+    localStorage.setItem('dislikeItems', stringProds);
+  };
+
+  HandleRecentList = () => {
+    const { history } = this.state;
+    history.push({
+      pathname: `/RecentList`,
+    });
+  };
+
   render() {
-    const { location } = this.props;
-    // 이슈1.
-    // 새로 고침하면 뒤로가짐. 근데 이게 맞는거 같음
-    // 새로 고침했다는 것이 상품을 조회했다는 의미는 아니니까.
+    const { location } = this.state;
+    if (this.state.RandomTitle) {
+      const Product = {
+        title: this.state.RandomTitle,
+        brand: this.state.RandomBrand,
+        price: this.state.RandomPrice,
+      };
+    }
     if (location.state) {
-      const { title, brand, price } = location.state;
+      const { title, brand, price, id } = location.state;
+      const currentItem = { title, brand, price, id };
+
       return (
         <ProductContainer>
           <ProductWrap>
             <LeftSide>
               <img
-                src={`https://picsum.photos/3`}
+                src={`https://picsum.photos/5`}
                 alt="product"
-                aria-label={brand + "image"}
+                aria-label={brand + 'image'}
               />
             </LeftSide>
             <RightSide>
               <ProductContentWrap>
                 <ContentWrap>
                   <ProductTitle>
-                    <h1>{title}</h1>
+                    <h1>
+                      {this.state.RandomTitle ? this.state.RandomTitle : title}
+                    </h1>
                   </ProductTitle>
                   <ProductBrand>
-                    <h2>{brand}</h2>
+                    <h2>
+                      {this.state.RandomBrand ? this.state.RandomBrand : brand}
+                    </h2>
                   </ProductBrand>
                   <ProductPrice>
-                    <h1>{`${price.toLocaleString()} 원`}</h1>
+                    <h1>{`${
+                      this.state.RandomPrice
+                        ? this.state.RandomPrice
+                        : price.toLocaleString()
+                    } 원`}</h1>
                   </ProductPrice>
                 </ContentWrap>
                 <BtnWrap>
                   <RandomBtn>
-                    <button>랜덤상품 조회</button>
+                    <button onClick={() => this.randomLoad(currentItem, true)}>
+                      랜덤상품 조회
+                    </button>
                   </RandomBtn>
                   <NoInterestBtn>
-                    <button>관심없음</button>
+                    <button onClick={() => this.HandleDislike(currentItem)}>
+                      관심없음
+                    </button>
                   </NoInterestBtn>
                 </BtnWrap>
               </ProductContentWrap>
             </RightSide>
           </ProductWrap>
           <RecentListBtnWrap>
-            <button>상품 조회 이력 확인하기</button>
+            <button onClick={this.HandleRecentList}>
+              상품 조회 이력 확인하기
+            </button>
           </RecentListBtnWrap>
         </ProductContainer>
       );
@@ -149,7 +284,6 @@ const BtnWrap = styled.div`
 
 const RandomBtn = styled.div`
   width: 100%;
-
   button {
     position: relative;
     left: 50%;
@@ -166,7 +300,6 @@ const RandomBtn = styled.div`
 
 const NoInterestBtn = styled.div`
   width: 100%;
-
   button {
     position: relative;
     left: 50%;
@@ -187,7 +320,6 @@ const RecentListBtnWrap = styled.div`
   width: 100%;
   height: 10%;
   margin: 10px 10px 20px 0px;
-
   button {
     position: relative;
     left: 50%;
