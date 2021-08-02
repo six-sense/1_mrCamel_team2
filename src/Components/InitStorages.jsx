@@ -17,7 +17,6 @@ class InitStorages extends Component {
   }
   tick = () => {
     this.setState({ time: new Date() });
-    console.log(this.state.time.getHours());
     if (this.state.time.getHours() === 0) {
       localStorage.clear();
     }
