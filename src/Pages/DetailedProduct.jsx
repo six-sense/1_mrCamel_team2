@@ -81,7 +81,7 @@ class DetailedProduct extends Component {
     history.push(`/product/${this.state.RandomId}`);
   };
 
-  // 최근 조회 로컬 스토리지 저장
+  // 최근 조회 로컬 스토리지 저장.
   AddRecentProduct = (recentItems, ClickProd) => {
     recentItems.push(ClickProd);
     const stringProds = JSON.stringify(recentItems);
