@@ -9,18 +9,16 @@ class InitStorages extends Component {
     };
   }
   componentDidMount() {
-    this.intervalTimer = setInterval(() => this.tick(), 10000);
+    this.intervalTimer = setInterval(() => this.tick(), CONST_DATA.TIMER);
   }
 
   componentWillUnmount() {
-    clearTimeout(this.intervalTimer);
+    clearInterval(this.intervalTimer);
   }
   tick = () => {
     this.setState({ time: new Date() });
-    
-    if (this.state.time.getHour() === 0) {
-      localStorage.removeItem('recentItems');
-      localStorage.removeItem('dislikeItems');
+    if (this.state.time.getHours() === 0) {
+      localStorage.clear();
     }
   };
 
